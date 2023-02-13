@@ -1,0 +1,200 @@
+﻿@page "/"
+@inject IMitarbeiterService Service
+@inject IBuchungsService BuchungsService
+@inject IPensumService PensumService
+@using TimeBooking.Data.Interfaces
+@using TimeBooking.Data.Models
+@using System.Globalization
+
+
+
+<PageTitle>Index</PageTitle>
+
+@if (_isLoading)
+{
+    <TelerikLoader Size="@ThemeConstants.Loader.Size.Medium" Type="LoaderType.ConvergingSpinner" />
+}
+else
+{
+    <div style="width: 30vh; margin-bottom: 1vh">
+    
+        <TelerikDatePicker @bind-Value="datePickerValue"
+                           Format="dd.MM.yy"
+                           ShowWeekNumbers="true"
+                           OnChange="@DateChangeHandler"
+                           OnClose="@OnDatePickerPopupClose"
+                           Max="@Max"
+                           Size="@ThemeConstants.DatePicker.Size.Small"
+                           @ref="PickerRef">
+        </TelerikDatePicker>
+    </div>
+    <div style="width: 30vh; margin-bottom: 1vh">
+        <TelerikButton OnClick="@SelectPreviousWeek" ThemeColor="@(ThemeConstants.Button.ThemeColor.Primary)">Vorherige Woche</TelerikButton>
+        <TelerikButton OnClick="@SelectNextWeek" ThemeColor="@(ThemeConstants.Button.ThemeColor.Primary)">Nächste Woche</TelerikButton>
+    </div>
+    <TelerikGrid Size="@ThemeConstants.Grid.Size.Small" Data="@_timeBooking" >
+       
+        <GridColumns >
+            <GridColumn Field="Weekday" Title="Tag">
+                <HeaderTemplate>
+                    @{
+                        var hours = _timeBooking.Sum(x => x.TotalHours);
+                        <p>Wochenstunden gesamt: <span class="@(hours >= Workload ? "hoursMet" : "hoursNotMet")"> @hours</span></p>
+                    }
+                </HeaderTemplate>
+                <Template>
+                    @if (context is DailyBooking daily)
+                    {
+                        <div class="d-flex">
+                            <div style="width: 200px;">
+                                @daily.Weekday
+                                <strong>(@daily.Date.ToString("dd.MM.yyyy"))</strong>
+                            </div>
+                            <div style="width: 30px;color: green;">@daily.TotalHours.ToString("F1")</div>
+                            <div>h</div>
+                        </div>
+                    }
+
+                </Template>
+            </GridColumn>
+        </GridColumns>
+
+        <DetailTemplate>
+            @if(context is DailyBooking bookings){
+
+                <TelerikGrid Size="@ThemeConstants.Grid.Size.Small" Data="@bookings.Details" EditMode="@GridEditMode.Popup" OnCreate=@CreateItem>
+                    <GridToolBarTemplate>
+                        <GridCommandButton Command="Add" Icon="@FontIcon.Plus">Buchung hinzufügen</GridCommandButton>
+                    </GridToolBarTemplate>
+                    <GridSettings>
+                        <GridPopupEditFormSettings Orientation="@FormOrientation.Horizontal"></GridPopupEditFormSettings>
+                    </GridSettings>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(BookingDetails.Project) Title="Projekt"/>
+                        <GridColumn Field=@nameof(BookingDetails.Hours) Title="Stunden">
+                         
+                        </GridColumn>
+                        <GridColumn Field=@nameof(BookingDetails.Title) Title="Bemerkung"/>
+                    </GridColumns>
+                </TelerikGrid>
+            }
+        </DetailTemplate>
+
+    </TelerikGrid>
+}
+
+
+@*<TelerikDialog @bind-Visible="@Visible" Width="320px" Title="Login">
+    <DialogContent>
+        <p style="text-align: center;">Please enter your name below</p>
+        <TelerikTextBox @bind-Value="UserInput" ></TelerikTextBox>
+    </DialogContent>
+    <DialogButtons>
+        <TelerikButton OnClick="@(() => { Visible = false; })">Cancel</TelerikButton>
+        <TelerikButton ThemeColor="@(ThemeConstants.Button.ThemeColor.Primary)" OnClick="@(() => GetEmployee(UserInput) )">Submit</TelerikButton>
+    </DialogButtons>
+</TelerikDialog>*@
+
+@code {
+
+    private bool Visible { get; set; } = true;
+    private bool _isLoading = true;
+    public string? UserInput;
+    public TimeBooking.Data.Models.Mitarbeiter? Employee;
+    public decimal Workload; 
+    public TelerikGrid<DailyBooking>? Grid { get; set; }
+    private List<DailyBooking>? _timeBooking;
+    DateTime datePickerValue { get; set; } = GetWeekToDisplay(DateTime.Now);
+    public DateTime Max = DateTime.Now.AddMonths(1);
+    public TelerikDatePicker<DateTime> PickerRef { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await GetEmployee("Scherle"); // ToDo: "Login" Richtig implementieren zum Schluss
+        if (Employee != null)
+        {
+            await GetTimeBookings(Employee.MitarbeiterId, datePickerValue); //ToDO: mit DateTime.Now ersetzten zum Schluss
+
+            await GetWorkload(Employee.MitarbeiterId);
+        }
+        
+    }
+
+    
+    public async Task GetEmployee(string name)
+    {
+        Employee = await Service.GetMitarbeiterByNameAsync(name);
+        Visible = false;
+    }
+
+    public async Task GetWorkload(Guid id)
+    {
+        Workload = await PensumService.GetWeeklyWorkloadByEmployeeAsync(id);
+
+    }
+    private async Task DateChangeHandler(object selectedDate)
+    {
+    
+        
+
+        datePickerValue = (DateTime)selectedDate;
+        if (Employee != null)
+        {
+           await  GetTimeBookings(Employee.MitarbeiterId, datePickerValue);
+        }
+     
+       
+    }
+
+    public async Task GetTimeBookings(Guid Id, DateTime date)
+    {
+        _timeBooking = await BuchungsService.GetBookingsByEmployeeAsync(Id, date);
+        _isLoading = false;
+    }
+
+    private async Task CreateItem(GridCommandEventArgs args)
+    {
+        await BuchungsService.CreateProduct((DailyBooking)args.Item);
+        _isLoading = true;
+        await GetTimeBookings(Employee.MitarbeiterId, datePickerValue);
+        _isLoading = false;
+    }
+
+    public void SelectNextWeek()
+    {
+        
+        PickerRef.Picker_Open();
+        datePickerValue = datePickerValue.AddDays(7);
+        PickerRef.Picker_Close();
+       
+        
+    }
+
+    public void SelectPreviousWeek()
+    {
+        PickerRef.Picker_Open();
+        datePickerValue = datePickerValue.AddDays(-7);
+        PickerRef.Picker_Close();
+    }
+
+    private async Task OnDatePickerPopupClose(DatePickerCloseEventArgs args)
+    {
+       
+
+       
+        if (Employee != null)
+        {
+            await  GetTimeBookings(Employee.MitarbeiterId, datePickerValue);
+        }
+       
+    }
+
+    private static DateTime GetWeekToDisplay( DateTime date)
+    {
+        var  startOfWeek = date.AddDays(
+            (int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek -
+            (int)date.DayOfWeek);
+
+        return startOfWeek;
+    }
+}
+

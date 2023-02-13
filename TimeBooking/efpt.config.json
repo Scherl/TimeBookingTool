@@ -1,0 +1,105 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "zeiterfassungContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": "Data\\Context",
+   "OutputPath": "Data\\Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "TimeBooking",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Arbeitszeit]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ArbeitszeitReduktion]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Buchung]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FerienArbeitspensum]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Kunde]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Mitarbeiter]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MitarbeiterSaldo]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Projekt]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Spesen]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[T_Log]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Vorgang]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AktiveKunden]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[AktiveProjekte]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[AktiveVorgaenge]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[InaktiveKunden]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[InaktiveProjekte]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[InaktiveVorgaenge]",
+         "ObjectType": 3
+      }
+   ],
+   "UiHint": "(LocalDB)\\MSSQLLocalDB.zeiterfassung",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
