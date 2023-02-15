@@ -13,10 +13,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddTelerikBlazor();
 builder.Services.AddDbContext<zeiterfassungContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("App")));
-builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddScoped<IMitarbeiterService, MitarbeiterService>();
-builder.Services.AddScoped<IBuchungsService, BuchungsService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IPensumService, PensumService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 var app = builder.Build();
 

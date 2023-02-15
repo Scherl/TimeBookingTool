@@ -16,14 +16,14 @@ namespace TimeBooking.Data.Services
 
         public async Task<decimal> GetWeeklyWorkloadByEmployeeAsync(Guid Id)
         {
-            var workload = await Context.FerienArbeitspensums.FirstOrDefaultAsync(x => x.MitarbeiterId == Id);
+            var workload = await Context.VacationWorkloads.FirstOrDefaultAsync(x => x.EmployeeId == Id);
 
             if (workload == null)
             {
                 throw new InvalidDataException("Employee not found");
             }
 
-            var weeklyWorkload = 40 * (workload.Arbeitspensum / 100);
+            var weeklyWorkload = 40 * (workload.Workload / 100);
 
             return weeklyWorkload;
         }

@@ -1,6 +1,6 @@
 ﻿@page "/"
-@inject IMitarbeiterService Service
-@inject IBuchungsService BuchungsService
+@inject IEmployeeService Service
+@inject IBookingService BuchungsService
 @inject IPensumService PensumService
 @using TimeBooking.Data.Interfaces
 @using TimeBooking.Data.Models
@@ -62,13 +62,11 @@ else
         <DetailTemplate>
             @if(context is DailyBooking bookings){
 
-                <TelerikGrid Size="@ThemeConstants.Grid.Size.Small" Data="@bookings.Details" EditMode="@GridEditMode.Popup" OnCreate=@CreateItem>
+                <TelerikGrid Size="@ThemeConstants.Grid.Size.Small" Data="@bookings.Details" EditMode="@GridEditMode.Popup" >
                     <GridToolBarTemplate>
-                        <GridCommandButton Command="Add" Icon="@FontIcon.Plus">Buchung hinzufügen</GridCommandButton>
+                        <TelerikButton OnClick="@OpenEditForm" Icon="@FontIcon.Plus">Buchung hinzufügen</TelerikButton>
                     </GridToolBarTemplate>
-                    <GridSettings>
-                        <GridPopupEditFormSettings Orientation="@FormOrientation.Horizontal"></GridPopupEditFormSettings>
-                    </GridSettings>
+                   
                     <GridColumns>
                         <GridColumn Field=@nameof(BookingDetails.Project) Title="Projekt"/>
                         <GridColumn Field=@nameof(BookingDetails.Hours) Title="Stunden">
@@ -81,6 +79,15 @@ else
         </DetailTemplate>
 
     </TelerikGrid>
+
+    @if (_openEditForm)
+    {
+        <TelerikDialog @bind-Visible="@_openEditForm" Width="320px" Title="Neue Buchung">
+            <DialogContent>
+                <TimeBookingEntryForm/>
+            </DialogContent>
+        </TelerikDialog>
+    }
 }
 
 
@@ -100,21 +107,23 @@ else
     private bool Visible { get; set; } = true;
     private bool _isLoading = true;
     public string? UserInput;
-    public TimeBooking.Data.Models.Mitarbeiter? Employee;
+    public TimeBooking.Data.Models.Employee? Employee;
     public decimal Workload; 
     public TelerikGrid<DailyBooking>? Grid { get; set; }
     private List<DailyBooking>? _timeBooking;
     DateTime datePickerValue { get; set; } = GetWeekToDisplay(DateTime.Now);
     public DateTime Max = DateTime.Now.AddMonths(1);
     public TelerikDatePicker<DateTime> PickerRef { get; set; }
+    private bool _openEditForm = false;
+
     protected override async Task OnInitializedAsync()
     {
         await GetEmployee("Scherle"); // ToDo: "Login" Richtig implementieren zum Schluss
         if (Employee != null)
         {
-            await GetTimeBookings(Employee.MitarbeiterId, datePickerValue); //ToDO: mit DateTime.Now ersetzten zum Schluss
+            await GetTimeBookings(Employee.EmployeeId, datePickerValue); //ToDO: mit DateTime.Now ersetzten zum Schluss
 
-            await GetWorkload(Employee.MitarbeiterId);
+            await GetWorkload(Employee.EmployeeId);
         }
         
     }
@@ -139,7 +148,7 @@ else
         datePickerValue = (DateTime)selectedDate;
         if (Employee != null)
         {
-           await  GetTimeBookings(Employee.MitarbeiterId, datePickerValue);
+           await  GetTimeBookings(Employee.EmployeeId, datePickerValue);
         }
      
        
@@ -151,12 +160,9 @@ else
         _isLoading = false;
     }
 
-    private async Task CreateItem(GridCommandEventArgs args)
+    protected void OpenEditForm()
     {
-        await BuchungsService.CreateProduct((DailyBooking)args.Item);
-        _isLoading = true;
-        await GetTimeBookings(Employee.MitarbeiterId, datePickerValue);
-        _isLoading = false;
+        _openEditForm = true;
     }
 
     public void SelectNextWeek()
@@ -183,7 +189,7 @@ else
        
         if (Employee != null)
         {
-            await  GetTimeBookings(Employee.MitarbeiterId, datePickerValue);
+            await GetTimeBookings(Employee.EmployeeId, datePickerValue);
         }
        
     }

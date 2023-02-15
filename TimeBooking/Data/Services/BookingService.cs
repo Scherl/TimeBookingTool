@@ -6,11 +6,11 @@ using TimeBooking.Data.Models;
 
 namespace TimeBooking.Data.Services
 {
-    public class BuchungsService : IBuchungsService
+    public class BookingService : IBookingService
     {
         public readonly zeiterfassungContext Context;
 
-        public BuchungsService(zeiterfassungContext context)
+        public BookingService(zeiterfassungContext context)
         {
             Context = context;
         }
@@ -21,7 +21,7 @@ namespace TimeBooking.Data.Services
 
             var startOfWeek = GetWeekToDisplay(date);
 
-            var bookings = await Context.Buchungs.Include(x => x.Vorgang).Include(x => x.Vorgang.Projekt).Where(x => x.MitarbeiterId == id && startOfWeek.Date <= x.BuchungDatum.Date && x.BuchungDatum.Date <= startOfWeek.AddDays(7).Date).OrderBy(x => x.BuchungDatum.Date).ToListAsync();
+            var bookings = await Context.Bookings.Include(x => x.Process).Include(x => x.Process.Project).Where(x => x.EmployeeId == id && startOfWeek.Date <= x.BookingDate.Date && x.BookingDate.Date <= startOfWeek.AddDays(7).Date).OrderBy(x => x.BookingDate.Date).ToListAsync();
 
             if (bookings == null)
             {
@@ -35,17 +35,15 @@ namespace TimeBooking.Data.Services
             {
                 Weekday = startOfWeek.AddDays(i).ToString("dddd", dateTimeFormat),
                 Date = startOfWeek.AddDays(i),
-                Details = bookings.Where(d => d.BuchungDatum.Date == startOfWeek.AddDays(i).Date).Select(entry => new BookingDetails()
+                Details = bookings.Where(d => d.BookingDate.Date == startOfWeek.AddDays(i).Date).Select(entry => new BookingDetails()
                 {
-                    Id = entry.BuchungId,
-                    Title = entry.BuchungText,
-                    Hours = (decimal)(entry.BuchungZeitBis - entry.BuchungZeitVon).TotalHours,
-                    Project = entry.Vorgang.Projekt.ProjektBezeichnung
+                    Id = entry.BookingId,
+                    Title = entry.BookingComment,
+                    Hours = (decimal)(entry.BookingFrom - entry.BookingDate).TotalHours,
+                    Project = entry.Process.Project.ProjectName
                 }).ToList()
             }).ToList();
 
-
-            //return list;
         }
 
         public async Task CreateProduct(DailyBooking booking)

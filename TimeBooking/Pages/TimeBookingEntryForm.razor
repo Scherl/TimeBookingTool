@@ -1,0 +1,58 @@
+﻿@using TimeBooking.Data.Models
+@using TimeBooking.Data.Interfaces
+@inject ICustomerService CustomerService
+
+
+<TelerikForm Model="@BookingEntry">
+    <FormItems>
+    <FormItem Field="@nameof(DailyBookingEntry.BookingDate)"></FormItem>
+
+        <FormItem LabelText="Kunde wählen"></FormItem>
+      
+        <TelerikDropDownList Data="@Customers"
+                                 @bind-Value="@BookingEntry.CustomerId"
+                             TextField="KundeName"
+                             ValueField="KundeId"
+                             DefaultText="Kunde suchen"
+                             Id="customer"
+                             Filterable="@Filterable"
+                             FilterOperator="@filterOperator"
+                             FilterDebounceDelay="@FilterDebounceDelay"
+                             Width="100%">
+            <DropDownListSettings>
+                <DropDownListPopupSettings Height="auto"></DropDownListPopupSettings>
+            </DropDownListSettings>
+        </TelerikDropDownList>
+       
+    <FormItem Field="@nameof(DailyBookingEntry.Project)"></FormItem>
+    <FormItem Field="@nameof(DailyBookingEntry.Activity)"></FormItem>
+    <FormItem Field="@nameof(DailyBookingEntry.Hours)"></FormItem>
+    <FormItem Field="@nameof(DailyBookingEntry.Comment)"></FormItem>
+   </FormItems>
+</TelerikForm>
+
+@code {
+
+    public DailyBookingEntry? BookingEntry { get; set; } = new DailyBookingEntry
+    {
+        BookingDate = DateTime.Now.Date
+    };
+
+    public List<Client>? Customers;
+    public Guid? selectedCustomer;
+    public int FilterDebounceDelay { get; set; } = 200;
+    bool Filterable { get; set; } = true;
+    StringFilterOperator filterOperator { get; set; } = StringFilterOperator.Contains;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetCustomers();
+    }
+
+    public async Task GetCustomers()
+    {
+        Customers = await CustomerService.GetAllActiveCustomers();
+    }
+   
+}

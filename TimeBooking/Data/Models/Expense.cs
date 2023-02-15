@@ -8,26 +8,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TimeBooking.Data.Models
 {
-    [Table("Spesen")]
-    public partial class Spesen
+    [Table("Expenses")]
+    public partial class Expense
     {
         [Key]
-        public Guid SpesenId { get; set; }
-        public Guid MitarbeiterId { get; set; }
+        public Guid ExpenseId { get; set; }
+        public Guid EmployeeId { get; set; }
         [Column(TypeName = "datetime")]
-        public DateTime Datum { get; set; }
+        public DateTime Date { get; set; }
         [Column(TypeName = "numeric(18, 2)")]
-        public decimal Betrag { get; set; }
+        public decimal Amount { get; set; }
         [Required]
         [StringLength(250)]
-        public string AnlassOrt { get; set; }
+        public string OccasionLocation { get; set; }
         [Required]
         [StringLength(250)]
-        public string Spesenart { get; set; }
-        public bool Kreditkarte { get; set; }
+        public string ExpenseType { get; set; }
+        public bool CreditCard { get; set; }
 
-        [ForeignKey("MitarbeiterId")]
-        [InverseProperty("Spesens")]
-        public virtual Mitarbeiter Mitarbeiter { get; set; }
+        [ForeignKey("EmployeeId")]
+        [InverseProperty("Expenses")]
+        public virtual Employee Employee { get; set; }
     }
 }

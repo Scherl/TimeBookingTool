@@ -5,18 +5,18 @@ using TimeBooking.Data.Models;
 
 namespace TimeBooking.Data.Services
 {
-    public class MitarbeiterService : IMitarbeiterService
+    public class EmployeeService : IEmployeeService
     {
         public readonly zeiterfassungContext Context;
 
-        public MitarbeiterService(zeiterfassungContext context)
+        public EmployeeService(zeiterfassungContext context)
         {
             Context = context;
         }
 
-        public async Task<Mitarbeiter> GetMitarbeiterByNameAsync(string name)
+        public async Task<Employee> GetMitarbeiterByNameAsync(string name)
         {
-            var mitarbeiter = await Context.Mitarbeiters.FirstOrDefaultAsync(x => x.MitarbeiterName == name);
+            var mitarbeiter = await Context.Employees.FirstOrDefaultAsync(x => x.EmployeeLastName == name);
 
             if (mitarbeiter == null)
             {

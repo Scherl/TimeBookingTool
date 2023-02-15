@@ -8,22 +8,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TimeBooking.Data.Models
 {
-    [Table("MitarbeiterSaldo")]
-    [Index("MitarbeiterId", "Jahr", "Monat", Name = "UK_MitarbeiterSaldo", IsUnique = true)]
-    public partial class MitarbeiterSaldo
+    [Table("EmployeeBalance")]
+    [Index("EmployeeId", "Year", "Month", Name = "UK_EmployeeBalance", IsUnique = true)]
+    public partial class EmployeeBalance
     {
         [Key]
-        public Guid MitarbeiterSaldoId { get; set; }
-        public Guid MitarbeiterId { get; set; }
-        public int Jahr { get; set; }
-        public int Monat { get; set; }
+        public Guid EmployeeBalanceId { get; set; }
+        public Guid EmployeeId { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
         [Column(TypeName = "numeric(18, 2)")]
-        public decimal StundenSaldo { get; set; }
+        public decimal HourBalance { get; set; }
         [Column(TypeName = "numeric(18, 2)")]
-        public decimal FerienSaldo { get; set; }
+        public decimal VacationBalance { get; set; }
         [Column(TypeName = "numeric(18, 2)")]
-        public decimal Soll { get; set; }
+        public decimal Target { get; set; }
         [Column(TypeName = "numeric(18, 2)")]
-        public decimal Ist { get; set; }
+        public decimal Actual { get; set; }
     }
 }
