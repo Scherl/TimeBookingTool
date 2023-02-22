@@ -1,20 +1,56 @@
 ﻿@using TimeBooking.Data.Models
 @using TimeBooking.Data.Interfaces
 @inject ICustomerService CustomerService
+@inject IProjectService ProjectService
+@inject IProcessService ProcessService
 
 
 <TelerikForm Model="@BookingEntry">
+    <FormValidation>
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+    </FormValidation>
     <FormItems>
-    <FormItem Field="@nameof(DailyBookingEntry.BookingDate)"></FormItem>
-
-        <FormItem LabelText="Kunde wählen"></FormItem>
-      
+        <FormItem Field="@nameof(DailyBookingEntry.BookingDate)"></FormItem>
+        <br>
         <TelerikDropDownList Data="@Customers"
-                                 @bind-Value="@BookingEntry.CustomerId"
-                             TextField="KundeName"
-                             ValueField="KundeId"
+                             @bind-Value="@BookingEntry.CustomerId"
+                             TextField="ClientName"
+                             ValueField="ClientId"
                              DefaultText="Kunde suchen"
-                             Id="customer"
+                             Id="customerSelected"
+                             Filterable="@Filterable"
+                             FilterOperator="@filterOperator"
+                             FilterDebounceDelay="@FilterDebounceDelay"
+                             OnChange="() =>GetProjectsByCustomerId(BookingEntry.CustomerId)"
+                             Width="100%">
+            <DropDownListSettings>
+                <DropDownListPopupSettings Height="auto"></DropDownListPopupSettings>
+            </DropDownListSettings>
+        </TelerikDropDownList>
+        <br>
+        <TelerikDropDownList Data="@Projects"
+                             @bind-Value="@BookingEntry.ProjectId"
+                             TextField="ProjectName"
+                             ValueField="ProjectId"
+                             DefaultText="Projekt suchen"
+                             Id="projectSelected"
+                             Filterable="@Filterable"
+                             FilterOperator="@filterOperator"
+                             FilterDebounceDelay="@FilterDebounceDelay"
+                             Width="100%"
+                             OnChange="() => GetProcessesByProjectId(BookingEntry.ProjectId)"
+                             >
+            <DropDownListSettings>
+                <DropDownListPopupSettings Height="auto"></DropDownListPopupSettings>
+            </DropDownListSettings>
+        </TelerikDropDownList>
+        <br>
+        <TelerikDropDownList Data="@Processes"
+                             @bind-Value="@BookingEntry.ProcessId"
+                             TextField="ProcessName"
+                             ValueField="ProcessId"
+                             DefaultText="Vorgang suchen"
+                             Id="processSelected"
                              Filterable="@Filterable"
                              FilterOperator="@filterOperator"
                              FilterDebounceDelay="@FilterDebounceDelay"
@@ -24,22 +60,27 @@
             </DropDownListSettings>
         </TelerikDropDownList>
        
-    <FormItem Field="@nameof(DailyBookingEntry.Project)"></FormItem>
-    <FormItem Field="@nameof(DailyBookingEntry.Activity)"></FormItem>
-    <FormItem Field="@nameof(DailyBookingEntry.Hours)"></FormItem>
-    <FormItem Field="@nameof(DailyBookingEntry.Comment)"></FormItem>
-   </FormItems>
+       
+        <FormItem Field="@nameof(DailyBookingEntry.Hours)"></FormItem>
+        <FormItem Field="@nameof(DailyBookingEntry.Comment)"></FormItem>
+    </FormItems>
 </TelerikForm>
 
 @code {
-
-    public DailyBookingEntry? BookingEntry { get; set; } = new DailyBookingEntry
-    {
-        BookingDate = DateTime.Now.Date
-    };
+    //TODO: Submit process to be added
+    public DailyBookingEntry? BookingEntry { get; set; }
 
     public List<Client>? Customers;
-    public Guid? selectedCustomer;
+    public List<Project>? Projects;
+    public List<Process>? Processes;
+    public TimeBookingEntryForm()
+    {
+        BookingEntry = new DailyBookingEntry()
+        {
+            BookingDate = DateTime.Today.Date
+        };
+    }
+
     public int FilterDebounceDelay { get; set; } = 200;
     bool Filterable { get; set; } = true;
     StringFilterOperator filterOperator { get; set; } = StringFilterOperator.Contains;
@@ -48,11 +89,27 @@
     protected override async Task OnInitializedAsync()
     {
         await GetCustomers();
+        
+
     }
 
     public async Task GetCustomers()
     {
         Customers = await CustomerService.GetAllActiveCustomers();
+    }
+
+    public async Task GetProjectsByCustomerId(Guid? customerId)
+    {
+        Projects = await ProjectService.GetProjectsByCustomerID(customerId);
+        if (Processes != null )
+        {
+            Processes = new List<Process>();
+        }
+    }
+
+    public async Task GetProcessesByProjectId(Guid? projectId)
+    {
+        Processes = await ProcessService.GetProcessByProjecId(projectId);
     }
    
 }

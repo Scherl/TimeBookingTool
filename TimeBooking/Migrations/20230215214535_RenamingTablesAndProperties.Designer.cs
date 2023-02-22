@@ -12,7 +12,7 @@ using TimeBooking.Data.Context;
 namespace TimeBooking.Migrations
 {
     [DbContext(typeof(zeiterfassungContext))]
-    [Migration("20230215213354_RenamingTablesAndProperties")]
+    [Migration("20230215214535_RenamingTablesAndProperties")]
     partial class RenamingTablesAndProperties
     {
         /// <inheritdoc />
@@ -49,7 +49,7 @@ namespace TimeBooking.Migrations
 
                     b.ToTable((string)null);
 
-                    b.ToView("AktiveKunden", (string)null);
+                    b.ToView("ActiveClients", (string)null);
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.ActiveProcesses", b =>
@@ -77,7 +77,7 @@ namespace TimeBooking.Migrations
 
                     b.ToTable((string)null);
 
-                    b.ToView("AktiveVorgaenge", (string)null);
+                    b.ToView("ActiveProcesses", (string)null);
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.ActiveProject", b =>
@@ -114,7 +114,7 @@ namespace TimeBooking.Migrations
 
                     b.ToTable((string)null);
 
-                    b.ToView("AktiveProjekte", (string)null);
+                    b.ToView("ActiveProjects", (string)null);
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.Booking", b =>
@@ -307,7 +307,7 @@ namespace TimeBooking.Migrations
 
                     b.ToTable((string)null);
 
-                    b.ToView("InaktiveKunden", (string)null);
+                    b.ToView("InactiveClients", (string)null);
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.InactiveProcesses", b =>
@@ -335,7 +335,7 @@ namespace TimeBooking.Migrations
 
                     b.ToTable((string)null);
 
-                    b.ToView("InaktiveVorgaenge", (string)null);
+                    b.ToView("InactiveProcesses", (string)null);
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.InactiveProject", b =>
@@ -374,7 +374,7 @@ namespace TimeBooking.Migrations
 
                     b.ToTable((string)null);
 
-                    b.ToView("InaktiveProjekte", (string)null);
+                    b.ToView("InactiveProjects", (string)null);
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.Process", b =>
@@ -615,13 +615,13 @@ namespace TimeBooking.Migrations
                         .WithMany("Bookings")
                         .HasForeignKey("EmployeeId")
                         .IsRequired()
-                        .HasConstraintName("FK_Buchung_Mitarbeiter");
+                        .HasConstraintName("FK_Booking_Employee");
 
                     b.HasOne("TimeBooking.Data.Models.Process", "Process")
                         .WithMany("Bookings")
                         .HasForeignKey("ProcessId")
                         .IsRequired()
-                        .HasConstraintName("FK_Buchung_Vorgang");
+                        .HasConstraintName("FK_Booking_Process");
 
                     b.Navigation("Employee");
 
@@ -634,7 +634,7 @@ namespace TimeBooking.Migrations
                         .WithMany("Expenses")
                         .HasForeignKey("EmployeeId")
                         .IsRequired()
-                        .HasConstraintName("FK_Spesen_Mitarbeiter");
+                        .HasConstraintName("FK_Expense_Employee");
 
                     b.Navigation("Employee");
                 });
@@ -645,7 +645,7 @@ namespace TimeBooking.Migrations
                         .WithMany("Processes")
                         .HasForeignKey("ProjectId")
                         .IsRequired()
-                        .HasConstraintName("FK_Vorgang_Projekt");
+                        .HasConstraintName("FK_Process_Project");
 
                     b.Navigation("Project");
                 });
@@ -656,7 +656,7 @@ namespace TimeBooking.Migrations
                         .WithMany("Projects")
                         .HasForeignKey("ClientId")
                         .IsRequired()
-                        .HasConstraintName("FK_Projekt_Kunde");
+                        .HasConstraintName("FK_Project_Client");
 
                     b.Navigation("Client");
                 });
@@ -667,7 +667,7 @@ namespace TimeBooking.Migrations
                         .WithMany("VacationWorkloads")
                         .HasForeignKey("EmployeeId")
                         .IsRequired()
-                        .HasConstraintName("FK_FerienArbeitspensum_Mitarbeiter");
+                        .HasConstraintName("FK_VacationWorkload_Employee");
 
                     b.Navigation("Employee");
                 });

@@ -114,7 +114,7 @@ else
     DateTime datePickerValue { get; set; } = GetWeekToDisplay(DateTime.Now);
     public DateTime Max = DateTime.Now.AddMonths(1);
     public TelerikDatePicker<DateTime> PickerRef { get; set; }
-    private bool _openEditForm = false;
+    private bool _openEditForm;
 
     protected override async Task OnInitializedAsync()
     {

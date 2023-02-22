@@ -16,7 +16,8 @@ namespace TimeBooking.Data.Services
 
         public async Task<List<Client>> GetAllActiveCustomers()
         {
-            var list =  Context.Clients;
+            var list = Context.Clients.Where(x =>
+                x.IsActive == true);
             var test = list.ToList();
             return test;
         }
