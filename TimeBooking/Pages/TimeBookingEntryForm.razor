@@ -1,13 +1,18 @@
 ﻿@using TimeBooking.Data.Models
 @using TimeBooking.Data.Interfaces
+
 @inject ICustomerService CustomerService
 @inject IProjectService ProjectService
 @inject IProcessService ProcessService
+@inject IBookingService BookingService
+@inject Globals GlobalVars
 
 
-<TelerikForm Model="@BookingEntry">
+<TelerikForm Model="@BookingEntry"
+             OnValidSubmit="@ValidSubmit"
+            >
     <FormValidation>
-        <DataAnnotationsValidator></DataAnnotationsValidator>
+       
     </FormValidation>
     <FormItems>
         <FormItem Field="@nameof(DailyBookingEntry.BookingDate)"></FormItem>
@@ -19,7 +24,7 @@
                              DefaultText="Kunde suchen"
                              Id="customerSelected"
                              Filterable="@Filterable"
-                             FilterOperator="@filterOperator"
+                             FilterOperator="@FilterOperator"
                              FilterDebounceDelay="@FilterDebounceDelay"
                              OnChange="() =>GetProjectsByCustomerId(BookingEntry.CustomerId)"
                              Width="100%">
@@ -35,7 +40,7 @@
                              DefaultText="Projekt suchen"
                              Id="projectSelected"
                              Filterable="@Filterable"
-                             FilterOperator="@filterOperator"
+                             FilterOperator="@FilterOperator"
                              FilterDebounceDelay="@FilterDebounceDelay"
                              Width="100%"
                              OnChange="() => GetProcessesByProjectId(BookingEntry.ProjectId)"
@@ -52,7 +57,7 @@
                              DefaultText="Vorgang suchen"
                              Id="processSelected"
                              Filterable="@Filterable"
-                             FilterOperator="@filterOperator"
+                             FilterOperator="@FilterOperator"
                              FilterDebounceDelay="@FilterDebounceDelay"
                              Width="100%">
             <DropDownListSettings>
@@ -73,21 +78,26 @@
     public List<Client>? Customers;
     public List<Project>? Projects;
     public List<Process>? Processes;
+
     public TimeBookingEntryForm()
     {
         BookingEntry = new DailyBookingEntry()
         {
-            BookingDate = DateTime.Today.Date
+            BookingDate = DateTime.Today.Date,
+            
+
         };
     }
 
     public int FilterDebounceDelay { get; set; } = 200;
     bool Filterable { get; set; } = true;
-    StringFilterOperator filterOperator { get; set; } = StringFilterOperator.Contains;
+    StringFilterOperator FilterOperator { get; set; } = StringFilterOperator.Contains;
 
 
     protected override async Task OnInitializedAsync()
     {
+       
+
         await GetCustomers();
         
 
@@ -111,5 +121,19 @@
     {
         Processes = await ProcessService.GetProcessByProjecId(projectId);
     }
+
+    public async void ValidSubmit()
+    {
+        if (BookingEntry != null)
+        {
+            BookingEntry.EmployeeId = GlobalVars.Id;
+            await BookingService.InsertBooking(BookingEntry);
+        }
+        GlobalVars.OpenTimeEditForm = false;
+        StateHasChanged();
+
+    }
+
+    
    
 }

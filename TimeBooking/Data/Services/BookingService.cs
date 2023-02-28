@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Microsoft.VisualBasic.CompilerServices;
 using TimeBooking.Data.Context;
 using TimeBooking.Data.Interfaces;
 using TimeBooking.Data.Models;
@@ -39,16 +40,33 @@ namespace TimeBooking.Data.Services
                 {
                     Id = entry.BookingId,
                     Title = entry.BookingComment,
-                    Hours = (decimal)(entry.BookingFrom - entry.BookingDate).TotalHours,
+                    Hours = (decimal)(entry.BookingTill - entry.BookingFrom).TotalHours,
                     Project = entry.Process.Project.ProjectName
                 }).ToList()
             }).ToList();
 
         }
 
-        public async Task CreateProduct(DailyBooking booking)
+        public async Task InsertBooking(DailyBookingEntry booking)
         {
-            var test = booking;
+            if (booking != null)
+            {
+                var newBooking = new Booking
+                {
+                    BookingId = Guid.NewGuid(),
+                    ProcessId = booking.ProcessId,
+                    EmployeeId = booking.EmployeeId,
+                    BookingDate = booking.BookingDate,
+                    BookingFrom = DateTime.UnixEpoch,
+                    BookingTill = DateTime.UnixEpoch.AddHours((double)booking.Hours),
+                    BookingComment = booking.Comment,
+                    Hours = true
+
+                };
+                await Context.AddAsync(newBooking);
+                await Context.SaveChangesAsync();
+            }
+
         }
 
         private static DateTime GetWeekToDisplay(DateTime date)

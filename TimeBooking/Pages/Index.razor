@@ -2,6 +2,7 @@
 @inject IEmployeeService Service
 @inject IBookingService BuchungsService
 @inject IPensumService PensumService
+@inject Globals GlobalVars
 @using TimeBooking.Data.Interfaces
 @using TimeBooking.Data.Models
 @using System.Globalization
@@ -80,9 +81,9 @@ else
 
     </TelerikGrid>
 
-    @if (_openEditForm)
+    @if (GlobalVars.OpenTimeEditForm)
     {
-        <TelerikDialog @bind-Visible="@_openEditForm" Width="320px" Title="Neue Buchung">
+        <TelerikDialog @bind-Visible="@GlobalVars.OpenTimeEditForm" Width="320px" Title="Neue Buchung">
             <DialogContent>
                 <TimeBookingEntryForm/>
             </DialogContent>
@@ -114,10 +115,12 @@ else
     DateTime datePickerValue { get; set; } = GetWeekToDisplay(DateTime.Now);
     public DateTime Max = DateTime.Now.AddMonths(1);
     public TelerikDatePicker<DateTime> PickerRef { get; set; }
-    private bool _openEditForm;
+    private bool _openEditForm { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        GlobalVars.OnChange += StateHasChanged;
+
         await GetEmployee("Scherle"); // ToDo: "Login" Richtig implementieren zum Schluss
         if (Employee != null)
         {
@@ -132,7 +135,10 @@ else
     public async Task GetEmployee(string name)
     {
         Employee = await Service.GetMitarbeiterByNameAsync(name);
+        GlobalVars.Id = Employee.EmployeeId;
         Visible = false;
+
+
     }
 
     public async Task GetWorkload(Guid id)
@@ -162,7 +168,8 @@ else
 
     protected void OpenEditForm()
     {
-        _openEditForm = true;
+        GlobalVars.OpenTimeEditForm = true;
+       
     }
 
     public void SelectNextWeek()
@@ -201,6 +208,11 @@ else
             (int)date.DayOfWeek);
 
         return startOfWeek;
+    }
+
+    public void Dispose()
+    {
+        GlobalVars.OnChange -= StateHasChanged;
     }
 }
 
