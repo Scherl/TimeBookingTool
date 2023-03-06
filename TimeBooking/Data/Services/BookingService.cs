@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using Microsoft.VisualBasic.CompilerServices;
 using TimeBooking.Data.Context;
 using TimeBooking.Data.Interfaces;
 using TimeBooking.Data.Models;
@@ -65,8 +64,10 @@ namespace TimeBooking.Data.Services
                 };
                 await Context.AddAsync(newBooking);
                 await Context.SaveChangesAsync();
+
             }
 
+           
         }
 
         private static DateTime GetWeekToDisplay(DateTime date)

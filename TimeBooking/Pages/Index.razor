@@ -6,6 +6,7 @@
 @using TimeBooking.Data.Interfaces
 @using TimeBooking.Data.Models
 @using System.Globalization
+@using System.Collections.ObjectModel
 
 
 
@@ -65,7 +66,7 @@ else
 
                 <TelerikGrid Size="@ThemeConstants.Grid.Size.Small" Data="@bookings.Details" EditMode="@GridEditMode.Popup" >
                     <GridToolBarTemplate>
-                        <TelerikButton OnClick="@OpenEditForm" Icon="@FontIcon.Plus">Buchung hinzufügen</TelerikButton>
+                        <TelerikButton OnClick="() => OpenEditForm(bookings.Date)" Icon="@FontIcon.Plus">Buchung hinzufügen</TelerikButton>
                     </GridToolBarTemplate>
                    
                     <GridColumns>
@@ -115,7 +116,7 @@ else
     DateTime datePickerValue { get; set; } = GetWeekToDisplay(DateTime.Now);
     public DateTime Max = DateTime.Now.AddMonths(1);
     public TelerikDatePicker<DateTime> PickerRef { get; set; }
-    private bool _openEditForm { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -138,26 +139,21 @@ else
         GlobalVars.Id = Employee.EmployeeId;
         Visible = false;
 
-
     }
 
     public async Task GetWorkload(Guid id)
     {
         Workload = await PensumService.GetWeeklyWorkloadByEmployeeAsync(id);
-
     }
+
     private async Task DateChangeHandler(object selectedDate)
     {
     
-        
-
         datePickerValue = (DateTime)selectedDate;
         if (Employee != null)
         {
            await  GetTimeBookings(Employee.EmployeeId, datePickerValue);
         }
-     
-       
     }
 
     public async Task GetTimeBookings(Guid Id, DateTime date)
@@ -166,10 +162,10 @@ else
         _isLoading = false;
     }
 
-    protected void OpenEditForm()
+    protected void OpenEditForm(DateTime dateForEntry)
     {
         GlobalVars.OpenTimeEditForm = true;
-       
+        GlobalVars.DateEntry = dateForEntry;
     }
 
     public void SelectNextWeek()
@@ -178,8 +174,7 @@ else
         PickerRef.Picker_Open();
         datePickerValue = datePickerValue.AddDays(7);
         PickerRef.Picker_Close();
-       
-        
+
     }
 
     public void SelectPreviousWeek()
@@ -191,9 +186,7 @@ else
 
     private async Task OnDatePickerPopupClose(DatePickerCloseEventArgs args)
     {
-       
 
-       
         if (Employee != null)
         {
             await GetTimeBookings(Employee.EmployeeId, datePickerValue);

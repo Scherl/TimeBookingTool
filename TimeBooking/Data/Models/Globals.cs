@@ -26,6 +26,18 @@
             }
         }
 
+        private DateTime DateForNewEntry;
+
+        public DateTime DateEntry
+        {
+            get => DateForNewEntry;
+            set
+            {
+                DateForNewEntry = value;
+                NotifyStateChanged();
+            }
+        }
+
 
 
         public event Action? OnChange;

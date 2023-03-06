@@ -81,12 +81,7 @@
 
     public TimeBookingEntryForm()
     {
-        BookingEntry = new DailyBookingEntry()
-        {
-            BookingDate = DateTime.Today.Date,
-            
-
-        };
+        BookingEntry = new DailyBookingEntry();
     }
 
     public int FilterDebounceDelay { get; set; } = 200;
@@ -96,11 +91,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-       
 
         await GetCustomers();
-        
+        await SetDate();
+    }
 
+    public Task SetDate()
+    {
+        if (BookingEntry != null) BookingEntry.BookingDate = GlobalVars.DateEntry;
+        return Task.CompletedTask;
     }
 
     public async Task GetCustomers()
@@ -124,11 +123,13 @@
 
     public async void ValidSubmit()
     {
+        
         if (BookingEntry != null)
         {
             BookingEntry.EmployeeId = GlobalVars.Id;
             await BookingService.InsertBooking(BookingEntry);
         }
+
         GlobalVars.OpenTimeEditForm = false;
         StateHasChanged();
 
