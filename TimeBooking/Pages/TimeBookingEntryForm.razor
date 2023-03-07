@@ -78,6 +78,8 @@
     public List<Client>? Customers;
     public List<Project>? Projects;
     public List<Process>? Processes;
+    [Parameter]
+    public EventCallback onValidSubmit { get; set; }
 
     public TimeBookingEntryForm()
     {
@@ -121,7 +123,7 @@
         Processes = await ProcessService.GetProcessByProjecId(projectId);
     }
 
-    public async void ValidSubmit()
+    public async Task ValidSubmit()
     {
         
         if (BookingEntry != null)
@@ -131,6 +133,7 @@
         }
 
         GlobalVars.OpenTimeEditForm = false;
+        await onValidSubmit.InvokeAsync();
         StateHasChanged();
 
     }

@@ -86,7 +86,7 @@ else
     {
         <TelerikDialog @bind-Visible="@GlobalVars.OpenTimeEditForm" Width="320px" Title="Neue Buchung">
             <DialogContent>
-                <TimeBookingEntryForm/>
+                <TimeBookingEntryForm onValidSubmit="FinishedNewEntry"/>
             </DialogContent>
         </TelerikDialog>
     }
@@ -117,6 +117,7 @@ else
     public DateTime Max = DateTime.Now.AddMonths(1);
     public TelerikDatePicker<DateTime> PickerRef { get; set; }
 
+    private TimeBookingEntryForm timeBookingEntryForm;
 
     protected override async Task OnInitializedAsync()
     {
@@ -131,6 +132,7 @@ else
         }
         
     }
+
 
     
     public async Task GetEmployee(string name)
@@ -201,6 +203,12 @@ else
             (int)date.DayOfWeek);
 
         return startOfWeek;
+    }
+
+    public async void FinishedNewEntry()
+    {
+        await GetTimeBookings(Employee.EmployeeId, datePickerValue);
+        StateHasChanged();
     }
 
     public void Dispose()
