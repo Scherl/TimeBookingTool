@@ -24,14 +24,18 @@ namespace TimeBooking.Data.Models
         [Required]
         [StringLength(100)]
         [Unicode(false)]
+        [Display(Name = "Nachname")]
         public string EmployeeLastName { get; set; }
         [Required]
         [StringLength(100)]
         [Unicode(false)]
+        [Display(Name = "Vorname")]
         public string EmployeeFirstName { get; set; }
         [Column(TypeName = "datetime")]
+        [Display(Name = "Eintrittsdatum")]
         public DateTime Entry { get; set; }
         [Column(TypeName = "datetime")]
+        [Display(Name = "Austrittsdatum")]
         public DateTime Exit { get; set; }
 
         [InverseProperty("Employee")]

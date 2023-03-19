@@ -16,7 +16,7 @@ namespace TimeBooking.Data.Services
 
         public async Task<Employee> GetMitarbeiterByNameAsync(string name)
         {
-            var mitarbeiter = await Context.Employees.FirstOrDefaultAsync(x => x.EmployeeLastName == name);
+            var mitarbeiter = await Context.Employees.Include(v => v.VacationWorkloads).FirstOrDefaultAsync(x => x.EmployeeLastName == name);
 
             if (mitarbeiter == null)
             {

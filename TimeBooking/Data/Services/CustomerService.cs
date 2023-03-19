@@ -18,7 +18,7 @@ namespace TimeBooking.Data.Services
         {
             var list = Context.Clients.Where(x =>
                 x.IsActive == true);
-            var test = list.ToList();
+            var test = await list.ToListAsync();
             return test;
         }
     }

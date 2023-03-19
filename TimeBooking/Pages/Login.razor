@@ -1,0 +1,15 @@
+﻿
+@*<TelerikDialog @bind-Visible="@_visible" Width="320px" Title="Login">
+    <DialogContent>
+        <p style="text-align: center;">Please enter your name below</p>
+        <TelerikTextBox @bind-Value="_userInput" ></TelerikTextBox>
+    </DialogContent>
+    <DialogButtons>
+        <TelerikButton OnClick="@(() => { _visible = false; })">Cancel</TelerikButton>
+        <TelerikButton ThemeColor="@(ThemeConstants.Button.ThemeColor.Primary)" OnClick="@(() => GetEmployee(UserInput) )">Submit</TelerikButton>
+    </DialogButtons>
+</TelerikDialog>*@
+
+@code {
+    // ToDo: "Login" to be implemented
+}

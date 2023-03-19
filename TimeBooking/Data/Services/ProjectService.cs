@@ -1,4 +1,5 @@
-﻿using TimeBooking.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using TimeBooking.Data.Context;
 using TimeBooking.Data.Interfaces;
 using TimeBooking.Data.Models;
 
@@ -21,16 +22,16 @@ namespace TimeBooking.Data.Services
 
         }
 
-        public Task<List<Project>> GetProjectsByCustomerID(Guid? clientID)
+        public async Task<List<Project>> GetProjectsByCustomerID(Guid? clientID)
         {
             if (clientID == null)
             {
-                return Task.FromResult(new List<Project>());
+                return new List<Project>();
             }
-            return Task.FromResult(Context.Projects.Where(x =>
+            return await Context.Projects.Where(x =>
                 x.ClientId == clientID &&
                 x.IsActive == true)
-                .ToList());
+                .ToListAsync();
         }
     }
 }
