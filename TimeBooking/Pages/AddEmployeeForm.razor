@@ -1,0 +1,22 @@
+﻿@using TimeBooking.Data.Models
+
+
+
+
+<TelerikForm Model="@Employee">
+    <FormItems>
+        <FormItem Field="@nameof(Employee.EmployeeFirstName)"></FormItem>
+        <FormItem Field="@nameof(Employee.EmployeeLastName)"></FormItem>
+        <FormItem Field="@nameof(Employee.Entry)"></FormItem>
+        <FormItem Field="@nameof(Employee.Exit)"></FormItem>
+    </FormItems>
+</TelerikForm>
+
+@code {
+    public Employee? Employee { get; set; }
+
+    public AddEmployeeForm()
+    {
+        Employee = new Employee();
+    }
+}

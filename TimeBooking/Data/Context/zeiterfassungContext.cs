@@ -19,23 +19,23 @@ namespace TimeBooking.Data.Context
         {
         }
 
-        public virtual DbSet<AktiveKunden> AktiveKundens { get; set; }
-        public virtual DbSet<AktiveProjekte> AktiveProjektes { get; set; }
-        public virtual DbSet<AktiveVorgaenge> AktiveVorgaenges { get; set; }
-        public virtual DbSet<Arbeitszeit> Arbeitszeits { get; set; }
-        public virtual DbSet<ArbeitszeitReduktion> ArbeitszeitReduktions { get; set; }
-        public virtual DbSet<Buchung> Buchungs { get; set; }
-        public virtual DbSet<FerienArbeitspensum> FerienArbeitspensums { get; set; }
-        public virtual DbSet<InaktiveKunden> InaktiveKundens { get; set; }
-        public virtual DbSet<InaktiveProjekte> InaktiveProjektes { get; set; }
-        public virtual DbSet<InaktiveVorgaenge> InaktiveVorgaenges { get; set; }
-        public virtual DbSet<Kunde> Kundes { get; set; }
-        public virtual DbSet<Mitarbeiter> Mitarbeiters { get; set; }
-        public virtual DbSet<MitarbeiterSaldo> MitarbeiterSaldos { get; set; }
-        public virtual DbSet<Projekt> Projekts { get; set; }
-        public virtual DbSet<Spesen> Spesens { get; set; }
+        public virtual DbSet<ActiveClient> ActiveClients { get; set; }
+        public virtual DbSet<ActiveProject> AktiveProjects { get; set; }
+        public virtual DbSet<ActiveProcesses> ActiveProcesses { get; set; }
+        public virtual DbSet<WorkingTime> WorkingTimes { get; set; }
+        public virtual DbSet<WorkloadReduction> WorkloadReductions { get; set; }
+        public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<VacationWorkload> VacationWorkloads { get; set; }
+        public virtual DbSet<InactiveClient> InactiveClients { get; set; }
+        public virtual DbSet<InactiveProject> InactiveProjects { get; set; }
+        public virtual DbSet<InactiveProcesses> InactiveProcesses { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<EmployeeBalance> EmployeeBalances { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<T_Log> T_Logs { get; set; }
-        public virtual DbSet<Vorgang> Vorgangs { get; set; }
+        public virtual DbSet<Process> Processes { get; set; }
 
       
 
@@ -43,142 +43,142 @@ namespace TimeBooking.Data.Context
         {
             modelBuilder.UseCollation("Latin1_General_CI_AS");
 
-            modelBuilder.Entity<AktiveKunden>(entity =>
+            modelBuilder.Entity<ActiveClient>(entity =>
             {
-                entity.ToView("AktiveKunden");
+                entity.ToView("ActiveClients");
             });
 
-            modelBuilder.Entity<AktiveProjekte>(entity =>
+            modelBuilder.Entity<ActiveProject>(entity =>
             {
-                entity.ToView("AktiveProjekte");
+                entity.ToView("ActiveProjects");
             });
 
-            modelBuilder.Entity<AktiveVorgaenge>(entity =>
+            modelBuilder.Entity<ActiveProcesses>(entity =>
             {
-                entity.ToView("AktiveVorgaenge");
+                entity.ToView("ActiveProcesses");
             });
 
-            modelBuilder.Entity<Arbeitszeit>(entity =>
+            modelBuilder.Entity<WorkingTime>(entity =>
             {
-                entity.Property(e => e.ArbeitszeitId).HasDefaultValueSql("(newid())");
+                entity.Property(e => e.WorkingTimeId).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.Tagesarbeitszeit).HasDefaultValueSql("((8))");
+                entity.Property(e => e.DailyWorkingTime).HasDefaultValueSql("((8))");
             });
 
-            modelBuilder.Entity<ArbeitszeitReduktion>(entity =>
+            modelBuilder.Entity<WorkloadReduction>(entity =>
             {
-                entity.Property(e => e.ReduktionId).HasDefaultValueSql("(newid())");
+                entity.Property(e => e.ReductionId).HasDefaultValueSql("(newid())");
             });
 
-            modelBuilder.Entity<Buchung>(entity =>
+            modelBuilder.Entity<Booking>(entity =>
             {
-                entity.Property(e => e.BuchungId).ValueGeneratedNever();
+                entity.Property(e => e.BookingId).ValueGeneratedNever();
 
-                entity.HasOne(d => d.Mitarbeiter)
-                    .WithMany(p => p.Buchungs)
-                    .HasForeignKey(d => d.MitarbeiterId)
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.Bookings)
+                    .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Buchung_Mitarbeiter");
+                    .HasConstraintName("FK_Booking_Employee");
 
-                entity.HasOne(d => d.Vorgang)
-                    .WithMany(p => p.Buchungs)
-                    .HasForeignKey(d => d.VorgangId)
+                entity.HasOne(d => d.Process)
+                    .WithMany(p => p.Bookings)
+                    .HasForeignKey(d => d.ProcessId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Buchung_Vorgang");
+                    .HasConstraintName("FK_Booking_Process");
             });
 
-            modelBuilder.Entity<FerienArbeitspensum>(entity =>
+            modelBuilder.Entity<VacationWorkload>(entity =>
             {
-                entity.Property(e => e.FerienArbeitspensumId).ValueGeneratedNever();
+                entity.Property(e => e.VacationWorkloadId).ValueGeneratedNever();
 
-                entity.Property(e => e.Arbeitspensum).HasDefaultValueSql("((100))");
+                entity.Property(e => e.Workload).HasDefaultValueSql("((100))");
 
-                entity.Property(e => e.Dienstag).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Tuesday).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Donnerstag).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Thursday).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.FerienProJahr).HasDefaultValueSql("((25))");
+                entity.Property(e => e.VacationPerYear).HasDefaultValueSql("((25))");
 
-                entity.Property(e => e.Freitag).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Friday).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Mittwoch).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Wednesday).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Montag).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Monday).HasDefaultValueSql("((1))");
 
-                entity.HasOne(d => d.Mitarbeiter)
-                    .WithMany(p => p.FerienArbeitspensums)
-                    .HasForeignKey(d => d.MitarbeiterId)
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.VacationWorkloads)
+                    .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FerienArbeitspensum_Mitarbeiter");
+                    .HasConstraintName("FK_VacationWorkload_Employee");
             });
 
-            modelBuilder.Entity<InaktiveKunden>(entity =>
+            modelBuilder.Entity<InactiveClient>(entity =>
             {
-                entity.ToView("InaktiveKunden");
+                entity.ToView("InactiveClients");
             });
 
-            modelBuilder.Entity<InaktiveProjekte>(entity =>
+            modelBuilder.Entity<InactiveProject>(entity =>
             {
-                entity.ToView("InaktiveProjekte");
+                entity.ToView("InactiveProjects");
             });
 
-            modelBuilder.Entity<InaktiveVorgaenge>(entity =>
+            modelBuilder.Entity<InactiveProcesses>(entity =>
             {
-                entity.ToView("InaktiveVorgaenge");
+                entity.ToView("InactiveProcesses");
             });
 
-            modelBuilder.Entity<Kunde>(entity =>
+            modelBuilder.Entity<Client>(entity =>
             {
-                entity.Property(e => e.KundeId).ValueGeneratedNever();
+                entity.Property(e => e.ClientId).ValueGeneratedNever();
 
-                entity.Property(e => e.Aktiv).HasDefaultValueSql("((1))");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
             });
 
-            modelBuilder.Entity<Mitarbeiter>(entity =>
+            modelBuilder.Entity<Employee>(entity =>
             {
-                entity.Property(e => e.MitarbeiterId).ValueGeneratedNever();
+                entity.Property(e => e.EmployeeId).ValueGeneratedNever();
             });
 
-            modelBuilder.Entity<MitarbeiterSaldo>(entity =>
+            modelBuilder.Entity<EmployeeBalance>(entity =>
             {
-                entity.Property(e => e.MitarbeiterSaldoId).HasDefaultValueSql("(newid())");
+                entity.Property(e => e.EmployeeBalanceId).HasDefaultValueSql("(newid())");
             });
 
-            modelBuilder.Entity<Projekt>(entity =>
+            modelBuilder.Entity<Project>(entity =>
             {
-                entity.Property(e => e.ProjektId).ValueGeneratedNever();
+                entity.Property(e => e.ProjectId).ValueGeneratedNever();
 
-                entity.Property(e => e.Aktiv).HasDefaultValueSql("((1))");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-                entity.HasOne(d => d.Kunde)
-                    .WithMany(p => p.Projekts)
-                    .HasForeignKey(d => d.KundeId)
+                entity.HasOne(d => d.Client)
+                    .WithMany(p => p.Projects)
+                    .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Projekt_Kunde");
+                    .HasConstraintName("FK_Project_Client");
             });
 
-            modelBuilder.Entity<Spesen>(entity =>
+            modelBuilder.Entity<Expense>(entity =>
             {
-                entity.Property(e => e.SpesenId).ValueGeneratedNever();
+                entity.Property(e => e.ExpenseId).ValueGeneratedNever();
 
-                entity.HasOne(d => d.Mitarbeiter)
-                    .WithMany(p => p.Spesens)
-                    .HasForeignKey(d => d.MitarbeiterId)
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.Expenses)
+                    .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Spesen_Mitarbeiter");
+                    .HasConstraintName("FK_Expense_Employee");
             });
 
-            modelBuilder.Entity<Vorgang>(entity =>
+            modelBuilder.Entity<Process>(entity =>
             {
-                entity.Property(e => e.VorgangId).ValueGeneratedNever();
+                entity.Property(e => e.ProcessId).ValueGeneratedNever();
 
-                entity.Property(e => e.Aktiv).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Active).HasDefaultValueSql("((1))");
 
-                entity.HasOne(d => d.Projekt)
-                    .WithMany(p => p.Vorgangs)
-                    .HasForeignKey(d => d.ProjektId)
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Processes)
+                    .HasForeignKey(d => d.ProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Vorgang_Projekt");
+                    .HasConstraintName("FK_Process_Project");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TimeBooking.Data;
 using TimeBooking.Data.Context;
 using TimeBooking.Data.Interfaces;
+using TimeBooking.Data.Models;
 using TimeBooking.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,10 +14,13 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddTelerikBlazor();
 builder.Services.AddDbContext<zeiterfassungContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("App")));
-builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddScoped<IMitarbeiterService, MitarbeiterService>();
-builder.Services.AddScoped<IBuchungsService, BuchungsService>();
+builder.Services.AddScoped<Globals>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IPensumService, PensumService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IProcessService, ProcessService>();
 
 var app = builder.Build();
 

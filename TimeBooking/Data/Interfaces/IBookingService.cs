@@ -2,9 +2,11 @@
 
 namespace TimeBooking.Data.Interfaces
 {
-    public interface IBuchungsService
+    public interface IBookingService
     {
         public  Task<List<DailyBooking>> GetBookingsByEmployeeAsync(Guid id, DateTime date);
-        public Task CreateProduct(DailyBooking booking);
+        public Task InsertBooking(DailyBookingEntry booking);
     }
 }
+
+

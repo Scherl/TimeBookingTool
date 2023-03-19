@@ -8,28 +8,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TimeBooking.Data.Models
 {
-    [Table("Kunde")]
-    public partial class Kunde
+    [Table("Clients")]
+    public partial class Client
     {
-        public Kunde()
+        public Client()
         {
-            Projekts = new HashSet<Projekt>();
+            Projects = new HashSet<Project>();
         }
 
         [Key]
-        public Guid KundeId { get; set; }
+        public Guid ClientId { get; set; }
         [Required]
         [StringLength(100)]
         [Unicode(false)]
-        public string KundeName { get; set; }
-        public bool Intern { get; set; }
+        public string ClientName { get; set; }
+        public bool IsInternal { get; set; }
         [Required]
-        public bool? Aktiv { get; set; }
+        public bool? IsActive { get; set; }
         [StringLength(1000)]
         [Unicode(false)]
-        public string Adresse { get; set; }
+        public string Address { get; set; }
 
-        [InverseProperty("Kunde")]
-        public virtual ICollection<Projekt> Projekts { get; set; }
+        [InverseProperty("Client")]
+        public virtual ICollection<Project> Projects { get; set; }
     }
 }

@@ -9,17 +9,16 @@ using Microsoft.EntityFrameworkCore;
 namespace TimeBooking.Data.Models
 {
     [Keyless]
-    public partial class InaktiveVorgaenge
+    public partial class ActiveClient
     {
-        public Guid VorgangId { get; set; }
-        public Guid ProjektId { get; set; }
-        [Required]
+        public Guid? KundeId { get; set; }
         [StringLength(100)]
         [Unicode(false)]
-        public string VorgangBezeichnung { get; set; }
+        public string KundeName { get; set; }
+        public bool? Intern { get; set; }
         public bool? Aktiv { get; set; }
-        public bool Ferien { get; set; }
-        [Column(TypeName = "numeric(18, 2)")]
-        public decimal Stundenansatz { get; set; }
+        [StringLength(1000)]
+        [Unicode(false)]
+        public string Adresse { get; set; }
     }
 }

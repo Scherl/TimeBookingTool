@@ -1,0 +1,154 @@
+﻿@using TimeBooking.Data.Models
+@using TimeBooking.Data.Interfaces
+
+@inject ICustomerService CustomerService
+@inject IProjectService ProjectService
+@inject IProcessService ProcessService
+@inject IBookingService BookingService
+@inject Globals GlobalVars
+
+@if (BookingEntry != null)
+{
+
+
+<TelerikForm Model="@BookingEntry"
+             OnValidSubmit="@ValidSubmit">
+    <FormValidation>
+    </FormValidation>
+    <FormItems>
+        
+            <FormItem Field="@nameof(DailyBookingEntry.BookingDate)"></FormItem>
+            <br>
+            <TelerikDropDownList Data="@_customers"
+                             @bind-Value="@BookingEntry.CustomerId"
+                             TextField="ClientName"
+                             ValueField="ClientId"
+                             DefaultText="Kunde suchen"
+                             Id="customerSelected"
+                             Filterable="@_filterable"
+                             FilterOperator="@_filterOperator"
+                             FilterDebounceDelay="@_filterDebounceDelay"
+                             OnChange="async () => {await   GetProjectsByCustomerId(BookingEntry.CustomerId); }"
+                             Width="100%">
+                <DropDownListSettings>
+                    <DropDownListPopupSettings Height="auto"></DropDownListPopupSettings>
+                </DropDownListSettings>
+            </TelerikDropDownList>
+            <br>
+            <TelerikDropDownList Data="@_projects"
+                             @bind-Value="@BookingEntry.ProjectId"
+                             TextField="ProjectName"
+                             ValueField="ProjectId"
+                             DefaultText="Projekt suchen"
+                             Id="projectSelected"
+                             Filterable="@_filterable"
+                             FilterOperator="@_filterOperator"
+                             FilterDebounceDelay="@_filterDebounceDelay"
+                             Width="100%"
+                             OnChange="async () => { await GetProcessesByProjectId(BookingEntry.ProjectId); }">
+                <DropDownListSettings>
+                    <DropDownListPopupSettings Height="auto"></DropDownListPopupSettings>
+                </DropDownListSettings>
+            </TelerikDropDownList>
+            <br>
+            <TelerikDropDownList Data="@_processes"
+                             @bind-Value="@BookingEntry.ProcessId"
+                             TextField="ProcessName"
+                             ValueField="ProcessId"
+                             DefaultText="Vorgang suchen"
+                             Id="processSelected"
+                             Filterable="@_filterable"
+                             FilterOperator="@_filterOperator"
+                             FilterDebounceDelay="@_filterDebounceDelay"
+                             Width="100%">
+                <DropDownListSettings>
+                    <DropDownListPopupSettings Height="auto"></DropDownListPopupSettings>
+                </DropDownListSettings>
+            </TelerikDropDownList>
+        <FormItem Field="@nameof(DailyBookingEntry.Hours)"></FormItem>
+        <FormItem Field="@nameof(DailyBookingEntry.Comment)"></FormItem>
+    </FormItems>
+</TelerikForm>
+}
+
+@code {
+
+    public DailyBookingEntry? BookingEntry { get; set; }
+    public TimeBookingEntryForm()
+    {
+        BookingEntry = new DailyBookingEntry();
+    }
+    private List<Client>? _customers;
+    private List<Project>? _projects;
+    private List<Process>? _processes;
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+    private int _filterDebounceDelay  = 200;
+    private bool _filterable  = true;
+    private StringFilterOperator _filterOperator = StringFilterOperator.Contains;
+
+    #region Init
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetCustomers();
+        await SetDate();
+    }
+
+    private Task SetDate()
+    {
+        if (BookingEntry != null) BookingEntry.BookingDate = GlobalVars.DateEntry;
+        return Task.CompletedTask;
+    }
+    #endregion
+
+
+    #region DataRequest
+
+    private async Task GetCustomers()
+    {
+        _customers = await CustomerService.GetAllActiveCustomers();
+    }
+
+    private async Task GetProjectsByCustomerId(Guid? customerId)
+    {
+        _projects = await ProjectService.GetProjectsByCustomerID(customerId);
+        if (_processes != null )
+        {
+            _processes = new List<Process>();
+        }
+    }
+
+    private async Task GetProcessesByProjectId(Guid? projectId)
+    {
+        _processes = await ProcessService.GetProcessByProjecId(projectId);
+    }
+    #endregion
+
+
+    #region TelerikComponents
+
+    private async Task ValidSubmit()
+    {
+        if (BookingEntry is {Hours: > 0 } &&
+            BookingEntry.ProjectId != Guid.Empty &&
+            BookingEntry.CustomerId != Guid.Empty &&
+            BookingEntry.ProcessId != Guid.Empty &&
+            string.IsNullOrEmpty(BookingEntry.Comment))
+        {
+            BookingEntry.EmployeeId = GlobalVars.Id;
+            await BookingService.InsertBooking(BookingEntry);
+            GlobalVars.OpenTimeEditForm = false;
+            await OnValidSubmit.InvokeAsync();
+            StateHasChanged();
+        }
+    }
+
+    #endregion
+
+    
+
+    
+
+   
+}

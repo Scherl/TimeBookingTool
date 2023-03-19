@@ -8,15 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TimeBooking.Data.Models
 {
-    [Table("ArbeitszeitReduktion")]
-    [Index("Datum", Name = "UK_ArbeitszeitReduktion", IsUnique = true)]
-    public partial class ArbeitszeitReduktion
+    [Table("WorkloadReduction")]
+    [Index("Date", Name = "UK_WorkloadReduction", IsUnique = true)]
+    public partial class WorkloadReduction
     {
         [Key]
-        public Guid ReduktionId { get; set; }
+        public Guid ReductionId { get; set; }
         [Column(TypeName = "datetime")]
-        public DateTime Datum { get; set; }
+        public DateTime Date { get; set; }
         [Column(TypeName = "numeric(3, 2)")]
-        public decimal Reduktion { get; set; }
+        public decimal Reduction { get; set; }
     }
 }

@@ -1,0 +1,29 @@
+﻿@page "/admin"
+
+
+<PageTitle>Administration</PageTitle>
+
+<TelerikButton OnClick="@AddNewEmployee">Neuen Mitarbeiter hinzufügen</TelerikButton>
+
+
+@if (_openEmployeeDialog)
+{
+    <TelerikDialog @bind-Visible="@_openEmployeeDialog"  Title="Neuen Mitarbeiter hinzufügen">
+        <DialogContent>
+            <AddEmployeeForm/>
+        </DialogContent>
+    </TelerikDialog>
+}
+
+
+@code {
+
+    private bool _openEmployeeDialog;
+
+
+    protected void AddNewEmployee()
+    {
+        _openEmployeeDialog = true;
+    }
+
+}

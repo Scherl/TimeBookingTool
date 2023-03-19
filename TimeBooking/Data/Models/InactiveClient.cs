@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore;
 namespace TimeBooking.Data.Models
 {
     [Keyless]
-    public partial class InaktiveKunden
+    public partial class InactiveClient
     {
-        public Guid KundeId { get; set; }
+        public Guid ClientId { get; set; }
         [Required]
         [StringLength(100)]
         [Unicode(false)]
-        public string KundeName { get; set; }
-        public bool Intern { get; set; }
-        public bool? Aktiv { get; set; }
+        public string ClientName { get; set; }
+        public bool IsInternal { get; set; }
+        public bool? IsActive { get; set; }
         [StringLength(1000)]
         [Unicode(false)]
-        public string Adresse { get; set; }
+        public string Address { get; set; }
     }
 }

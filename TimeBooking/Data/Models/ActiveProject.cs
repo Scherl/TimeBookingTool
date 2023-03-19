@@ -9,22 +9,22 @@ using Microsoft.EntityFrameworkCore;
 namespace TimeBooking.Data.Models
 {
     [Keyless]
-    public partial class AktiveProjekte
+    public partial class ActiveProject
     {
-        public Guid? ProjektId { get; set; }
-        public Guid? KundeId { get; set; }
+        public Guid? ProjectId { get; set; }
+        public Guid? ClientId { get; set; }
         [StringLength(100)]
         [Unicode(false)]
-        public string ProjektNummer { get; set; }
+        public string ClientNummer { get; set; }
         [StringLength(100)]
         [Unicode(false)]
-        public string ProjektBezeichnung { get; set; }
-        public bool? Aktiv { get; set; }
+        public string ProjectName { get; set; }
+        public bool? IsActiv { get; set; }
         [Column(TypeName = "numeric(18, 2)")]
-        public decimal? Gesamtkosten { get; set; }
-        public bool? Pauschal { get; set; }
+        public decimal? TotalCosts { get; set; }
+        public bool? IsFlatRate { get; set; }
         [StringLength(100)]
         [Unicode(false)]
-        public string Vertragsdauer { get; set; }
+        public string ContractDuration { get; set; }
     }
 }
