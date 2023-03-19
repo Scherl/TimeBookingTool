@@ -19,7 +19,14 @@ namespace TimeBooking.Data.Services
         {
             var startOfWeek = GetWeekToDisplay(date);
 
-            var bookings = await Context.Bookings.Include(x => x.Process).Include(x => x.Process.Project).Where(x => x.EmployeeId == id && startOfWeek.Date <= x.BookingDate.Date && x.BookingDate.Date <= startOfWeek.AddDays(7).Date).OrderBy(x => x.BookingDate.Date).ToListAsync();
+            var bookings = await Context.Bookings
+                .Include(x => x.Process)
+                .Include(x => x.Process.Project)
+                .Where(x => x.EmployeeId == id 
+                    && startOfWeek.Date <= x.BookingDate.Date 
+                    && x.BookingDate.Date <= startOfWeek.AddDays(7).Date)
+                .OrderBy(x => x.BookingDate.Date)
+                .ToListAsync();
 
             if (bookings == null)
             {
