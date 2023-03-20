@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TimeBooking.Data.Context;
 
@@ -11,9 +12,11 @@ using TimeBooking.Data.Context;
 namespace TimeBooking.Migrations
 {
     [DbContext(typeof(zeiterfassungContext))]
-    partial class zeiterfassungContextModelSnapshot : ModelSnapshot
+    [Migration("20230320220201_DataSeedUpdate")]
+    partial class DataSeedUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,58 +157,58 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            BookingId = new Guid("2d17732c-1141-470a-977b-7861fa28e719"),
+                            BookingId = new Guid("ceac0f09-32bb-499a-8ed7-78fe59ea6802"),
                             BookingComment = "Test Comment 1",
                             BookingDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local),
                             BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             BookingTill = new DateTime(1970, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
+                            EmployeeId = new Guid("cd34ce4a-eacd-42ee-aeb7-4c17c0bfc6df"),
                             Hours = true,
-                            ProcessId = new Guid("174793b3-cd31-412f-ab1c-97edfa65aa90")
+                            ProcessId = new Guid("0160d9b1-e598-4c37-b813-37574a2eef5d")
                         },
                         new
                         {
-                            BookingId = new Guid("171e5fae-a9cb-4c80-b09b-0bbdb088c925"),
+                            BookingId = new Guid("51472296-fe7b-447d-ba62-82304d9ab39a"),
                             BookingComment = "Test Comment 2",
                             BookingDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Local),
                             BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             BookingTill = new DateTime(1970, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
+                            EmployeeId = new Guid("cd34ce4a-eacd-42ee-aeb7-4c17c0bfc6df"),
                             Hours = true,
-                            ProcessId = new Guid("a944d35d-67ba-4475-b8ef-c262113c8905")
+                            ProcessId = new Guid("e6ebad07-2b6c-4d4e-9e6d-4d863e3cb765")
                         },
                         new
                         {
-                            BookingId = new Guid("961816cf-3951-4622-8e25-03cd6e1b47bb"),
+                            BookingId = new Guid("4cbd53a3-0c37-464f-9e2b-e1924e0356eb"),
                             BookingComment = "Test Comment 3",
                             BookingDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Local),
                             BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             BookingTill = new DateTime(1970, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
+                            EmployeeId = new Guid("cd34ce4a-eacd-42ee-aeb7-4c17c0bfc6df"),
                             Hours = true,
-                            ProcessId = new Guid("8cebca44-c691-4be2-b6d3-ab9d742f8cf2")
+                            ProcessId = new Guid("5497d4ae-6fe0-420e-86b5-9ca955ce3297")
                         },
                         new
                         {
-                            BookingId = new Guid("518d09bd-7a7d-4e22-86b4-abfe0a9c768d"),
+                            BookingId = new Guid("9673faba-b29d-41b6-a6b4-2761fbae57de"),
                             BookingComment = "Test Comment 4",
                             BookingDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local),
                             BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             BookingTill = new DateTime(1970, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
+                            EmployeeId = new Guid("cd34ce4a-eacd-42ee-aeb7-4c17c0bfc6df"),
                             Hours = true,
-                            ProcessId = new Guid("81a7e9bd-d189-44ac-9721-01f5e0d77712")
+                            ProcessId = new Guid("32a7c9e8-1b1a-4586-b484-86e87bd76cae")
                         },
                         new
                         {
-                            BookingId = new Guid("0716a8e8-d57f-4682-a790-e67850011549"),
+                            BookingId = new Guid("25f9ab13-eea8-4aae-b6e8-515d9bcac845"),
                             BookingComment = "Test Comment 5",
-                            BookingDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Local),
+                            BookingDate = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             BookingTill = new DateTime(1970, 1, 1, 6, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
+                            EmployeeId = new Guid("cd34ce4a-eacd-42ee-aeb7-4c17c0bfc6df"),
                             Hours = true,
-                            ProcessId = new Guid("be1e8984-5cd3-43b1-b5a7-53a7010d52a5")
+                            ProcessId = new Guid("aa98befe-2552-4ff2-90c1-b01d22042458")
                         });
                 });
 
@@ -241,7 +244,7 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            ClientId = new Guid("fdbae1d7-75ef-4fea-9bf2-23a289ad8c9d"),
+                            ClientId = new Guid("0d6a03d7-f061-472f-8254-bf542e445b06"),
                             Address = "Gasse 1, 3303 Jegenstorf",
                             ClientName = "TestClient 1",
                             IsActive = true,
@@ -249,7 +252,7 @@ namespace TimeBooking.Migrations
                         },
                         new
                         {
-                            ClientId = new Guid("8d80e514-e7b1-4b1c-b2f8-c68ecfddf321"),
+                            ClientId = new Guid("094802f2-3c40-4ecc-acca-dba1e61ae515"),
                             Address = "TestStrasse 5, 3001 Bern",
                             ClientName = "TestClient 2",
                             IsActive = true,
@@ -287,7 +290,7 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
+                            EmployeeId = new Guid("cd34ce4a-eacd-42ee-aeb7-4c17c0bfc6df"),
                             EmployeeFirstName = "Bernd",
                             EmployeeLastName = "Brot",
                             Entry = new DateTime(2019, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -295,7 +298,7 @@ namespace TimeBooking.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("a58e04bc-6126-4eec-a014-42a73c076322"),
+                            EmployeeId = new Guid("8f102974-76d1-4af3-b6c3-1c2a0528fb9f"),
                             EmployeeFirstName = "Anke",
                             EmployeeLastName = "Müller",
                             Entry = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -303,7 +306,7 @@ namespace TimeBooking.Migrations
                         },
                         new
                         {
-                            EmployeeId = new Guid("a008b4c0-88ca-47c1-8630-291d9ee15853"),
+                            EmployeeId = new Guid("782802a7-5d9c-4c29-8df2-10775d3739b1"),
                             EmployeeFirstName = "Peter",
                             EmployeeLastName = "Meier",
                             Entry = new DateTime(2015, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -383,21 +386,21 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            ExpenseId = new Guid("629bfa9d-7b6b-42e3-823f-a92d98fead7d"),
+                            ExpenseId = new Guid("c123114f-f4d0-48b2-a3ae-08e6b2bbe651"),
                             Amount = 10.10m,
                             CreditCard = false,
-                            Date = new DateTime(2023, 3, 15, 23, 8, 54, 687, DateTimeKind.Local).AddTicks(143),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
+                            Date = new DateTime(2023, 3, 15, 23, 2, 1, 150, DateTimeKind.Local).AddTicks(8211),
+                            EmployeeId = new Guid("cd34ce4a-eacd-42ee-aeb7-4c17c0bfc6df"),
                             ExpenseType = "Parkgebühr",
                             OccasionLocation = "Sitzung Bern"
                         },
                         new
                         {
-                            ExpenseId = new Guid("661814e4-e401-4b62-8e71-1ab9f798dc51"),
+                            ExpenseId = new Guid("583debc6-37a6-44b0-a2fe-cd6058effa41"),
                             Amount = 10.10m,
                             CreditCard = false,
-                            Date = new DateTime(2023, 3, 18, 23, 8, 54, 687, DateTimeKind.Local).AddTicks(147),
-                            EmployeeId = new Guid("a58e04bc-6126-4eec-a014-42a73c076322"),
+                            Date = new DateTime(2023, 3, 18, 23, 2, 1, 150, DateTimeKind.Local).AddTicks(8216),
+                            EmployeeId = new Guid("8f102974-76d1-4af3-b6c3-1c2a0528fb9f"),
                             ExpenseType = "Rückerstattung",
                             OccasionLocation = "Wasser"
                         });
@@ -538,52 +541,52 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            ProcessId = new Guid("174793b3-cd31-412f-ab1c-97edfa65aa90"),
+                            ProcessId = new Guid("0160d9b1-e598-4c37-b813-37574a2eef5d"),
                             Active = true,
                             AmountHours = 100.00m,
                             HourlyRate = 150.00m,
                             ProcessName = "TestProcess 1",
-                            ProjectId = new Guid("2dae18c8-e528-4870-b691-f1df3e7e5319"),
+                            ProjectId = new Guid("4ad45f3c-bac8-4ef5-bc61-7cdd70b383c0"),
                             Vacation = false
                         },
                         new
                         {
-                            ProcessId = new Guid("a944d35d-67ba-4475-b8ef-c262113c8905"),
+                            ProcessId = new Guid("e6ebad07-2b6c-4d4e-9e6d-4d863e3cb765"),
                             Active = true,
                             AmountHours = 20.00m,
                             HourlyRate = 150.00m,
                             ProcessName = "TestProcess 2",
-                            ProjectId = new Guid("2dae18c8-e528-4870-b691-f1df3e7e5319"),
+                            ProjectId = new Guid("4ad45f3c-bac8-4ef5-bc61-7cdd70b383c0"),
                             Vacation = false
                         },
                         new
                         {
-                            ProcessId = new Guid("8cebca44-c691-4be2-b6d3-ab9d742f8cf2"),
+                            ProcessId = new Guid("5497d4ae-6fe0-420e-86b5-9ca955ce3297"),
                             Active = true,
                             AmountHours = 20.00m,
                             HourlyRate = 50.00m,
                             ProcessName = "TestProcess 3",
-                            ProjectId = new Guid("2dae18c8-e528-4870-b691-f1df3e7e5319"),
+                            ProjectId = new Guid("4ad45f3c-bac8-4ef5-bc61-7cdd70b383c0"),
                             Vacation = false
                         },
                         new
                         {
-                            ProcessId = new Guid("81a7e9bd-d189-44ac-9721-01f5e0d77712"),
+                            ProcessId = new Guid("32a7c9e8-1b1a-4586-b484-86e87bd76cae"),
                             Active = true,
                             AmountHours = 100.00m,
                             HourlyRate = 160.00m,
                             ProcessName = "TestProcess 1a",
-                            ProjectId = new Guid("44c56bd8-c2cb-4bfa-b7fa-800188d59fa6"),
+                            ProjectId = new Guid("e7d85c93-f24b-44f4-8fe8-1d71d9fe59f0"),
                             Vacation = false
                         },
                         new
                         {
-                            ProcessId = new Guid("be1e8984-5cd3-43b1-b5a7-53a7010d52a5"),
+                            ProcessId = new Guid("aa98befe-2552-4ff2-90c1-b01d22042458"),
                             Active = true,
                             AmountHours = 150.00m,
                             HourlyRate = 200.00m,
                             ProcessName = "TestProcess 2a",
-                            ProjectId = new Guid("44c56bd8-c2cb-4bfa-b7fa-800188d59fa6"),
+                            ProjectId = new Guid("e7d85c93-f24b-44f4-8fe8-1d71d9fe59f0"),
                             Vacation = false
                         });
                 });
@@ -637,8 +640,8 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            ProjectId = new Guid("2dae18c8-e528-4870-b691-f1df3e7e5319"),
-                            ClientId = new Guid("fdbae1d7-75ef-4fea-9bf2-23a289ad8c9d"),
+                            ProjectId = new Guid("4ad45f3c-bac8-4ef5-bc61-7cdd70b383c0"),
+                            ClientId = new Guid("0d6a03d7-f061-472f-8254-bf542e445b06"),
                             ContractDuration = "2023",
                             IsActive = true,
                             IsFlatRate = true,
@@ -649,8 +652,8 @@ namespace TimeBooking.Migrations
                         },
                         new
                         {
-                            ProjectId = new Guid("44c56bd8-c2cb-4bfa-b7fa-800188d59fa6"),
-                            ClientId = new Guid("8d80e514-e7b1-4b1c-b2f8-c68ecfddf321"),
+                            ProjectId = new Guid("e7d85c93-f24b-44f4-8fe8-1d71d9fe59f0"),
+                            ClientId = new Guid("094802f2-3c40-4ecc-acca-dba1e61ae515"),
                             ContractDuration = "2025",
                             IsActive = true,
                             IsFlatRate = true,
@@ -758,8 +761,8 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            VacationWorkloadId = new Guid("0ac23686-0de0-4a02-ae9b-913a030e2ed0"),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
+                            VacationWorkloadId = new Guid("49c645fa-a2c1-467f-b484-98b926d2383e"),
+                            EmployeeId = new Guid("cd34ce4a-eacd-42ee-aeb7-4c17c0bfc6df"),
                             Friday = true,
                             Monday = true,
                             Thursday = true,
@@ -771,8 +774,8 @@ namespace TimeBooking.Migrations
                         },
                         new
                         {
-                            VacationWorkloadId = new Guid("288a7251-6b98-4bd9-84ce-7a0d4b89b5f9"),
-                            EmployeeId = new Guid("a58e04bc-6126-4eec-a014-42a73c076322"),
+                            VacationWorkloadId = new Guid("129fb348-0f8a-45cd-98a4-0c50e75e46ec"),
+                            EmployeeId = new Guid("8f102974-76d1-4af3-b6c3-1c2a0528fb9f"),
                             Friday = true,
                             Monday = true,
                             Thursday = true,
@@ -784,8 +787,8 @@ namespace TimeBooking.Migrations
                         },
                         new
                         {
-                            VacationWorkloadId = new Guid("66c0f1df-bdb2-4f9e-9258-cd4f1c0935ff"),
-                            EmployeeId = new Guid("a008b4c0-88ca-47c1-8630-291d9ee15853"),
+                            VacationWorkloadId = new Guid("1dd7e460-cf2c-48a4-869f-7db92d12c02a"),
+                            EmployeeId = new Guid("782802a7-5d9c-4c29-8df2-10775d3739b1"),
                             Friday = true,
                             Monday = true,
                             Thursday = true,
@@ -829,7 +832,7 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            WorkingTimeId = new Guid("2694dd4d-08bc-4225-9a68-800ff82fab09"),
+                            WorkingTimeId = new Guid("8930a6ec-c9f3-44ad-ba23-7bc2f3128603"),
                             DailyWorkingTime = 8.00m,
                             Month = 3,
                             WorkingTime1 = 64.00m,

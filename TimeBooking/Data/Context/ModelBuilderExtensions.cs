@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using TimeBooking.Data.Models;
 
 namespace TimeBooking.Data.Context
@@ -27,6 +28,11 @@ namespace TimeBooking.Data.Context
             var vacationWorkloadId3 = Guid.NewGuid();
             var expenseId1 = Guid.NewGuid();
             var expenseId2 = Guid.NewGuid();
+            var bookingId1 = Guid.NewGuid();
+            var bookingId2 = Guid.NewGuid();
+            var bookingId3 = Guid.NewGuid();
+            var bookingId4 = Guid.NewGuid();
+            var bookingId5 = Guid.NewGuid();
             #endregion
 
             #region ClientDataInsert
@@ -259,6 +265,68 @@ namespace TimeBooking.Data.Context
                 });
 
             #endregion
+
+            #region BookingDataInsert
+
+            var startOfWeek = GetStartOfWeek(DateTime.Today);
+            modelBuilder.Entity<Booking>().HasData(
+                new Booking
+                {
+                    BookingId = bookingId1,
+                    ProcessId = processId1,
+                    EmployeeId = employeeId1,
+                    BookingDate = startOfWeek,
+                    BookingFrom = DateTime.UnixEpoch,
+                    BookingTill = DateTime.UnixEpoch.AddHours(8),
+                    BookingComment = "Test Comment 1",
+                    Hours = true
+                },
+                new Booking
+                {
+                    BookingId = bookingId2,
+                    ProcessId = processId2,
+                    EmployeeId = employeeId1,
+                    BookingDate = startOfWeek.AddDays(1),
+                    BookingFrom = DateTime.UnixEpoch,
+                    BookingTill = DateTime.UnixEpoch.AddHours(8),
+                    BookingComment = "Test Comment 2",
+                    Hours = true
+                },
+                new Booking
+                {
+                    BookingId = bookingId3,
+                    ProcessId = processId3,
+                    EmployeeId = employeeId1,
+                    BookingDate = startOfWeek.AddDays(2),
+                    BookingFrom = DateTime.UnixEpoch,
+                    BookingTill = DateTime.UnixEpoch.AddHours(8),
+                    BookingComment = "Test Comment 3",
+                    Hours = true
+                },
+                new Booking
+                {
+                    BookingId = bookingId4,
+                    ProcessId = processId4,
+                    EmployeeId = employeeId1,
+                    BookingDate = startOfWeek.AddDays(3),
+                    BookingFrom = DateTime.UnixEpoch,
+                    BookingTill = DateTime.UnixEpoch.AddHours(8),
+                    BookingComment = "Test Comment 4",
+                    Hours = true
+                },
+                new Booking
+                {
+                    BookingId = bookingId5,
+                    ProcessId = processId5,
+                    EmployeeId = employeeId1,
+                    BookingDate = startOfWeek.AddDays(4),
+                    BookingFrom = DateTime.UnixEpoch,
+                    BookingTill = DateTime.UnixEpoch.AddHours(6),
+                    BookingComment = "Test Comment 5",
+                    Hours = true
+                });
+
+            #endregion
         }
 
         public static int GetWorkingHoursPerMonth(DateTime startDate, DateTime endDate,
@@ -269,6 +337,15 @@ namespace TimeBooking.Data.Context
                                                      excludedDates.Contains(cuDate.Date));
             return Enumerable.Range(0, 1 + (endDate - startDate).Days)
                 .Count(intDays => workDay(startDate.AddDays(intDays)));
+        }
+
+        private static DateTime GetStartOfWeek(DateTime date)
+        {
+            var startOfWeek = date.AddDays(
+                (int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek -
+                (int)date.DayOfWeek);
+
+            return startOfWeek;
         }
     }
 }
