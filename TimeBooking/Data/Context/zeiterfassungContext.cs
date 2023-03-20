@@ -19,6 +19,7 @@ namespace TimeBooking.Data.Context
         {
         }
 
+
         public virtual DbSet<ActiveClient> ActiveClients { get; set; }
         public virtual DbSet<ActiveProject> AktiveProjects { get; set; }
         public virtual DbSet<ActiveProcesses> ActiveProcesses { get; set; }
@@ -37,7 +38,7 @@ namespace TimeBooking.Data.Context
         public virtual DbSet<T_Log> T_Logs { get; set; }
         public virtual DbSet<Process> Processes { get; set; }
 
-      
+       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +47,7 @@ namespace TimeBooking.Data.Context
             modelBuilder.Entity<ActiveClient>(entity =>
             {
                 entity.ToView("ActiveClients");
+                
             });
 
             modelBuilder.Entity<ActiveProject>(entity =>
@@ -132,11 +134,13 @@ namespace TimeBooking.Data.Context
                 entity.Property(e => e.ClientId).ValueGeneratedNever();
 
                 entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+
             });
 
             modelBuilder.Entity<Employee>(entity =>
             {
                 entity.Property(e => e.EmployeeId).ValueGeneratedNever();
+                
             });
 
             modelBuilder.Entity<EmployeeBalance>(entity =>
@@ -155,6 +159,7 @@ namespace TimeBooking.Data.Context
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Project_Client");
+
             });
 
             modelBuilder.Entity<Expense>(entity =>
@@ -181,9 +186,13 @@ namespace TimeBooking.Data.Context
                     .HasConstraintName("FK_Process_Project");
             });
 
+            modelBuilder.Seed();
+
             OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+      
     }
 }

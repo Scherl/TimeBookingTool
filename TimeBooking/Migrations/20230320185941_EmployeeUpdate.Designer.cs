@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TimeBooking.Data.Context;
 
@@ -11,9 +12,11 @@ using TimeBooking.Data.Context;
 namespace TimeBooking.Migrations
 {
     [DbContext(typeof(zeiterfassungContext))]
-    partial class zeiterfassungContextModelSnapshot : ModelSnapshot
+    [Migration("20230320185941_EmployeeUpdate")]
+    partial class EmployeeUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,8 +187,24 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            ClientId = new Guid("2d0a847d-1ce6-4a0c-ad9a-d2380f4b083c"),
+                            ClientId = new Guid("423ad681-b3f3-40d9-be33-d5f0ffd63927"),
+                            Address = "TestStrasse 1, 3303 Jegenstorf",
+                            ClientName = "TestClient 1",
+                            IsActive = true,
+                            IsInternal = false
+                        },
+                        new
+                        {
+                            ClientId = new Guid("fbbaac5b-1468-457e-9558-9ae2aa4752cd"),
                             Address = "TestStrasse 5, 3001 Bern",
+                            ClientName = "TestClient 2",
+                            IsActive = true,
+                            IsInternal = false
+                        },
+                        new
+                        {
+                            ClientId = new Guid("69855592-d394-4522-84f2-66d4bc7d1b26"),
+                            Address = "TestGasse 8, 2540 Grenchen",
                             ClientName = "TestClient 2",
                             IsActive = true,
                             IsInternal = false
@@ -212,12 +231,32 @@ namespace TimeBooking.Migrations
                     b.Property<DateTime>("Entry")
                         .HasColumnType("datetime");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.HasKey("EmployeeId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = new Guid("f9e2a17e-7207-4a47-a9af-16ebf2aa08fd"),
+                            EmployeeFirstName = "Bernd",
+                            EmployeeLastName = "Brot",
+                            Entry = new DateTime(2019, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("8de4d910-7122-4c16-9870-69fa66f3feeb"),
+                            EmployeeFirstName = "Anke",
+                            EmployeeLastName = "Müller",
+                            Entry = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("4e7560eb-8fbe-4508-8edc-4346eb0b6a69"),
+                            EmployeeFirstName = "Peter",
+                            EmployeeLastName = "Meier",
+                            Entry = new DateTime(2015, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.EmployeeBalance", b =>
@@ -468,20 +507,6 @@ namespace TimeBooking.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("Projects");
-
-                    b.HasData(
-                        new
-                        {
-                            ProjectId = new Guid("ea9b9f27-f832-4243-ab89-cf3b3f125e5d"),
-                            ClientId = new Guid("2d0a847d-1ce6-4a0c-ad9a-d2380f4b083c"),
-                            ContractDuration = "2023",
-                            IsActive = true,
-                            IsFlatRate = true,
-                            ProjectName = "TestProject 2",
-                            ProjectNumber = "16987",
-                            TotalCosts = 50000.00m,
-                            VAT = true
-                        });
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.T_Log", b =>
