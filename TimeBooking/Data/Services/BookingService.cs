@@ -6,14 +6,10 @@ using TimeBooking.Data.Models;
 
 namespace TimeBooking.Data.Services
 {
-    public class BookingService : IBookingService
+    public class BookingService : RepositoryBase, IBookingService
     {
-        public readonly zeiterfassungContext Context;
-
-        public BookingService(zeiterfassungContext context)
-        {
-            Context = context;
-        }
+        
+        public BookingService(IDbContextFactory<zeiterfassungContext> factory) : base(factory) { }
 
         public async Task<List<DailyBooking>> GetBookingsByEmployeeAsync(Guid id, DateTime date)
         {
@@ -51,6 +47,7 @@ namespace TimeBooking.Data.Services
 
         }
 
+
         public async Task InsertBooking(DailyBookingEntry booking)
         {
             if (booking != null)
@@ -75,6 +72,11 @@ namespace TimeBooking.Data.Services
            
         }
 
+        /// <summary>
+        /// calculates the first day of the week with any given date based on system culture
+        /// </summary>
+        /// <param name="date">date selected by user</param>
+        /// <returns></returns>
         private static DateTime GetWeekToDisplay(DateTime date)
         {
             var startOfWeek = date.AddDays(
