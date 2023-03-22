@@ -17,5 +17,12 @@ namespace TimeBooking.BusinessComponents
             var bookings = await _bookingService.GetBookingsByEmployeeAsync(id, date);
                 return bookings;
         }
-    } //TODO: Add remaining functions!; Add Business Component for other services 
+
+        public async Task InsertBooking(DailyBookingEntry booking)
+        {
+            await _bookingService.InsertBooking(booking);
+        }
+
+
+    } //TODO:  Add Business Component for other services 
 }

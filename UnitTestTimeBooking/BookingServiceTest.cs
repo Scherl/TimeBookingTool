@@ -45,4 +45,6 @@ public class BookingServiceTest : IClassFixture<BookingServiceTestFixture>
         Equal(3, details.Count);
         _mockBuilder.VerifyAll();
     }
+
+
 }

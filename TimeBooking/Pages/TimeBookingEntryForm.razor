@@ -134,7 +134,7 @@
             BookingEntry.ProjectId != Guid.Empty &&
             BookingEntry.CustomerId != Guid.Empty &&
             BookingEntry.ProcessId != Guid.Empty &&
-            string.IsNullOrEmpty(BookingEntry.Comment))
+            !string.IsNullOrEmpty(BookingEntry.Comment))
         {
             BookingEntry.EmployeeId = GlobalVars.Id;
             await BookingService.InsertBooking(BookingEntry);
@@ -142,7 +142,7 @@
             await OnValidSubmit.InvokeAsync();
             StateHasChanged();
         }
-    }
+    }//TODO: implement validation / warning when not all fields filled 
 
     #endregion
 

@@ -13,7 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddTelerikBlazor();
-//builder.Services.AddDbContext<zeiterfassungContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("App")));
 builder.Services.AddDbContextFactory<zeiterfassungContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("App")));
 
 builder.Services.AddScoped<Globals>();
