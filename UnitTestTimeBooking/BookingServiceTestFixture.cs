@@ -6,10 +6,6 @@ namespace UnitTestTimeBooking
     {
 
         public Employee TestEmployee = _employee;
-        public Client TestClient = _client;
-        public Project TestProject = _project;
-        public Process TestProcess = _process;
-        public Booking TestBooking = _booking;
         public DailyBooking TestDailyBooking = _dailyBooking;
         public DailyBookingEntry TestDailyBookingEntry = _dailyBookingEntry;
 

@@ -1,6 +1,6 @@
 ﻿@using TimeBooking.Data.Models
 @using TimeBooking.Data.Interfaces
-@using TimeBooking.BusinessComponents
+@using TimeBooking.Data.Services.BusinessComponents
 @inject ICustomerService CustomerService
 @inject IProjectService ProjectService
 @inject IProcessService ProcessService
@@ -85,6 +85,7 @@
     private List<Project>? _projects;
     private List<Process>? _processes;
     private BookingBusinessComponent _bookingBusinessComponent;
+    private CustomerBusinessComponent _customerBusinessComponent;
     private int _filterDebounceDelay  = 200;
     private bool _filterable  = true;
     private StringFilterOperator _filterOperator = StringFilterOperator.Contains;
@@ -95,6 +96,7 @@
     protected override async Task OnInitializedAsync()
     {
         _bookingBusinessComponent = new BookingBusinessComponent(BookingService);
+        _customerBusinessComponent = new CustomerBusinessComponent(CustomerService);
         await GetCustomers();
         await SetDate();
     }
@@ -111,7 +113,7 @@
 
     private async Task GetCustomers()
     {
-        _customers = await CustomerService.GetAllActiveCustomers();
+        _customers = await _customerBusinessComponent.GetAllActiveCustomers();
     }
 
     private async Task GetProjectsByCustomerId(Guid? customerId)

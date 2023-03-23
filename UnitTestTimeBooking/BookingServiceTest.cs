@@ -1,7 +1,7 @@
 using Moq;
-using TimeBooking.BusinessComponents;
 using TimeBooking.Data.Interfaces;
 using TimeBooking.Data.Models;
+using TimeBooking.Data.Services.BusinessComponents;
 using static Xunit.Assert;
 
 namespace UnitTestTimeBooking;
