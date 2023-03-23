@@ -1,6 +1,6 @@
 ﻿@using TimeBooking.Data.Models
 @using TimeBooking.Data.Interfaces
-
+@using TimeBooking.BusinessComponents
 @inject ICustomerService CustomerService
 @inject IProjectService ProjectService
 @inject IProcessService ProcessService
@@ -72,25 +72,29 @@
 }
 
 @code {
-
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
     public DailyBookingEntry? BookingEntry { get; set; }
     public TimeBookingEntryForm()
     {
+
         BookingEntry = new DailyBookingEntry();
     }
+
     private List<Client>? _customers;
     private List<Project>? _projects;
     private List<Process>? _processes;
-    [Parameter]
-    public EventCallback OnValidSubmit { get; set; }
+    private BookingBusinessComponent _bookingBusinessComponent;
     private int _filterDebounceDelay  = 200;
     private bool _filterable  = true;
     private StringFilterOperator _filterOperator = StringFilterOperator.Contains;
+
 
     #region Init
 
     protected override async Task OnInitializedAsync()
     {
+        _bookingBusinessComponent = new BookingBusinessComponent(BookingService);
         await GetCustomers();
         await SetDate();
     }
@@ -137,7 +141,7 @@
             !string.IsNullOrEmpty(BookingEntry.Comment))
         {
             BookingEntry.EmployeeId = GlobalVars.Id;
-            await BookingService.InsertBooking(BookingEntry);
+            await _bookingBusinessComponent.InsertBookingAsync(BookingEntry);
             GlobalVars.OpenTimeEditForm = false;
             await OnValidSubmit.InvokeAsync();
             StateHasChanged();
@@ -148,7 +152,6 @@
 
     
 
-    
 
    
 }

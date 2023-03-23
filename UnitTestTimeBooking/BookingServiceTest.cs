@@ -46,5 +46,23 @@ public class BookingServiceTest : IClassFixture<BookingServiceTestFixture>
         _mockBuilder.VerifyAll();
     }
 
+    [Fact(DisplayName = "InsertBooking")]
+
+    public async Task TestInsertBookingAsync()
+    {
+        //arrange
+        BookingBusinessComponent service = new(_context);
+        var testBooking = Fixture.TestDailyBookingEntry;
+
+        _mockBuilder.Setup(x => x.InsertBooking(testBooking));
+
+        //Act
+        var result = await service.InsertBookingAsync(testBooking);
+
+        //Assert
+        NotEmpty(result.ToString());
+        IsType<Guid>(result);
+        _mockBuilder.VerifyAll();
+    }
 
 }

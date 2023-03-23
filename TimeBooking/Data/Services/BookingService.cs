@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
 using TimeBooking.Data.Context;
 using TimeBooking.Data.Interfaces;
 using TimeBooking.Data.Models;
@@ -48,7 +49,7 @@ namespace TimeBooking.Data.Services
         }
 
 
-        public async Task InsertBooking(DailyBookingEntry booking)
+        public async Task<Guid> InsertBooking(DailyBookingEntry booking)
         {
             if (booking != null)
             {
@@ -66,9 +67,10 @@ namespace TimeBooking.Data.Services
                 };
                 await Context.AddAsync(newBooking);
                 await Context.SaveChangesAsync();
+                return newBooking.BookingId;
 
             }
-
+            return Guid.Empty;
            
         }
 

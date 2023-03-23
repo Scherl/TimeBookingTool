@@ -11,6 +11,7 @@ namespace UnitTestTimeBooking
         public Process TestProcess = _process;
         public Booking TestBooking = _booking;
         public DailyBooking TestDailyBooking = _dailyBooking;
+        public DailyBookingEntry TestDailyBookingEntry = _dailyBookingEntry;
 
 
         private static readonly Employee _employee = new()
@@ -134,6 +135,17 @@ namespace UnitTestTimeBooking
             Date = DateTime.Today,
             Weekday = "Monday",
             Details = _bookingDetails
+        };
+
+        private static readonly DailyBookingEntry _dailyBookingEntry = new()
+        {
+            EmployeeId = _employee.EmployeeId,
+            CustomerId = _client.ClientId,
+            ProcessId = _process.ProcessId,
+            ProjectId = _project.ProjectId,
+            BookingDate = DateTime.Today,
+            Hours = 5.5m,
+            Comment = "Test Comment Booking"
         };
     }
 }

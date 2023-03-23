@@ -1,9 +1,10 @@
 ﻿using TimeBooking.Data.Interfaces;
 using TimeBooking.Data.Models;
+using TimeBooking.Data.Services;
 
 namespace TimeBooking.BusinessComponents
 {
-    public class BookingBusinessComponent
+    public class BookingBusinessComponent 
     {
         private readonly IBookingService _bookingService;
 
@@ -14,13 +15,13 @@ namespace TimeBooking.BusinessComponents
 
         public async Task<List<DailyBooking>> GetBookingsByEmployeeAsync(Guid id, DateTime date)
         {
-            var bookings = await _bookingService.GetBookingsByEmployeeAsync(id, date);
-                return bookings;
+            return  await _bookingService.GetBookingsByEmployeeAsync(id, date);
+              
         }
 
-        public async Task InsertBooking(DailyBookingEntry booking)
+        public async Task<Guid> InsertBookingAsync(DailyBookingEntry booking)
         {
-            await _bookingService.InsertBooking(booking);
+           return await _bookingService.InsertBooking(booking);
         }
 
 

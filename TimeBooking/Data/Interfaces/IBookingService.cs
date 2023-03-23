@@ -17,7 +17,7 @@ namespace TimeBooking.Data.Interfaces
         /// </summary>
         /// <param name="booking">object with all time entry information</param>
         /// <returns></returns>
-        public Task InsertBooking(DailyBookingEntry booking);
+        public Task<Guid> InsertBooking(DailyBookingEntry booking);
     }
 }
 
