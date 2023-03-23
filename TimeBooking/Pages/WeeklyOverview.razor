@@ -106,7 +106,8 @@ else
     private readonly DateTime _max = DateTime.Now.AddMonths(1);
     private TelerikDatePicker<DateTime>? _pickerRef;
     private BookingBusinessComponent _bookingBusinessComponent;
-    private EmployeeBusinessComponent _employeeBusinessComponent; 
+    private EmployeeBusinessComponent _employeeBusinessComponent;
+    private PensumBusinessComponent _pensumBusinessComponent;
 
     #region OnInit
 
@@ -115,6 +116,7 @@ else
         GlobalVars.OnChange += StateHasChanged;
         _bookingBusinessComponent = new BookingBusinessComponent(BookingService);
         _employeeBusinessComponent = new EmployeeBusinessComponent(EmployeeService);
+        _pensumBusinessComponent = new PensumBusinessComponent(PensumService);
     // ToDo: "Login" to be implemented
         await GetEmployee("Brot");
         if (_employee != null)
@@ -139,7 +141,7 @@ else
 
     private async Task GetWorkload(Guid id)
     {
-        _workload = await PensumService.GetWeeklyWorkloadByEmployeeAsync(id);
+        _workload = await _pensumBusinessComponent.GetWeeklyWorkloadByEmployeeAsync(id);
     }
 
     private async Task GetTimeBookings(Guid id, DateTime date)
