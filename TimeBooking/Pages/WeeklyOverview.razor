@@ -2,7 +2,7 @@
 @using TimeBooking.Data.Models
 @using TimeBooking.Data.Services.BusinessComponents
 @using System.Globalization
-@inject IEmployeeService Service
+@inject IEmployeeService EmployeeService
 @inject IBookingService BookingService
 @inject IPensumService PensumService
 @inject Globals GlobalVars
@@ -106,6 +106,7 @@ else
     private readonly DateTime _max = DateTime.Now.AddMonths(1);
     private TelerikDatePicker<DateTime>? _pickerRef;
     private BookingBusinessComponent _bookingBusinessComponent;
+    private EmployeeBusinessComponent _employeeBusinessComponent; 
 
     #region OnInit
 
@@ -113,6 +114,7 @@ else
     {
         GlobalVars.OnChange += StateHasChanged;
         _bookingBusinessComponent = new BookingBusinessComponent(BookingService);
+        _employeeBusinessComponent = new EmployeeBusinessComponent(EmployeeService);
     // ToDo: "Login" to be implemented
         await GetEmployee("Brot");
         if (_employee != null)
@@ -130,7 +132,7 @@ else
 
     private async Task GetEmployee(string name)
     {
-        _employee = await Service.GetMitarbeiterByNameAsync(name);
+        _employee = await _employeeBusinessComponent.GetMitarbeiterByNameAsync(name);
         GlobalVars.Id = _employee.EmployeeId;
         
     }
