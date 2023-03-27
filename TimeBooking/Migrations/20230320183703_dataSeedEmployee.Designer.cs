@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TimeBooking.Data.Context;
 
@@ -11,9 +12,11 @@ using TimeBooking.Data.Context;
 namespace TimeBooking.Migrations
 {
     [DbContext(typeof(zeiterfassungContext))]
-    partial class zeiterfassungContextModelSnapshot : ModelSnapshot
+    [Migration("20230320183703_dataSeedEmployee")]
+    partial class dataSeedEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,63 +153,6 @@ namespace TimeBooking.Migrations
                     b.HasIndex("ProcessId");
 
                     b.ToTable("Booking");
-
-                    b.HasData(
-                        new
-                        {
-                            BookingId = new Guid("2d17732c-1141-470a-977b-7861fa28e719"),
-                            BookingComment = "Test Comment 1",
-                            BookingDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local),
-                            BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            BookingTill = new DateTime(1970, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
-                            Hours = true,
-                            ProcessId = new Guid("174793b3-cd31-412f-ab1c-97edfa65aa90")
-                        },
-                        new
-                        {
-                            BookingId = new Guid("171e5fae-a9cb-4c80-b09b-0bbdb088c925"),
-                            BookingComment = "Test Comment 2",
-                            BookingDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Local),
-                            BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            BookingTill = new DateTime(1970, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
-                            Hours = true,
-                            ProcessId = new Guid("a944d35d-67ba-4475-b8ef-c262113c8905")
-                        },
-                        new
-                        {
-                            BookingId = new Guid("961816cf-3951-4622-8e25-03cd6e1b47bb"),
-                            BookingComment = "Test Comment 3",
-                            BookingDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Local),
-                            BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            BookingTill = new DateTime(1970, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
-                            Hours = true,
-                            ProcessId = new Guid("8cebca44-c691-4be2-b6d3-ab9d742f8cf2")
-                        },
-                        new
-                        {
-                            BookingId = new Guid("518d09bd-7a7d-4e22-86b4-abfe0a9c768d"),
-                            BookingComment = "Test Comment 4",
-                            BookingDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local),
-                            BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            BookingTill = new DateTime(1970, 1, 1, 8, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
-                            Hours = true,
-                            ProcessId = new Guid("81a7e9bd-d189-44ac-9721-01f5e0d77712")
-                        },
-                        new
-                        {
-                            BookingId = new Guid("0716a8e8-d57f-4682-a790-e67850011549"),
-                            BookingComment = "Test Comment 5",
-                            BookingDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Local),
-                            BookingFrom = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            BookingTill = new DateTime(1970, 1, 1, 6, 0, 0, 0, DateTimeKind.Utc),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
-                            Hours = true,
-                            ProcessId = new Guid("be1e8984-5cd3-43b1-b5a7-53a7010d52a5")
-                        });
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.Client", b =>
@@ -241,17 +187,9 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            ClientId = new Guid("fdbae1d7-75ef-4fea-9bf2-23a289ad8c9d"),
-                            Address = "Gasse 1, 3303 Jegenstorf",
+                            ClientId = new Guid("93703d24-2108-4eb8-855a-47ea7bd34a9a"),
+                            Address = "TestStrasse 1, 3303 Jegenstorf",
                             ClientName = "TestClient 1",
-                            IsActive = true,
-                            IsInternal = false
-                        },
-                        new
-                        {
-                            ClientId = new Guid("8d80e514-e7b1-4b1c-b2f8-c68ecfddf321"),
-                            Address = "TestStrasse 5, 3001 Bern",
-                            ClientName = "TestClient 2",
                             IsActive = true,
                             IsInternal = false
                         });
@@ -277,8 +215,8 @@ namespace TimeBooking.Migrations
                     b.Property<DateTime>("Entry")
                         .HasColumnType("datetime");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<DateTime>("Exit")
+                        .HasColumnType("datetime");
 
                     b.HasKey("EmployeeId");
 
@@ -287,27 +225,11 @@ namespace TimeBooking.Migrations
                     b.HasData(
                         new
                         {
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
-                            EmployeeFirstName = "Bernd",
-                            EmployeeLastName = "Brot",
+                            EmployeeId = new Guid("476d1037-e2c9-4e4a-aeee-307a6f25742c"),
+                            EmployeeFirstName = "FirstNameTest",
+                            EmployeeLastName = "LastNameTest",
                             Entry = new DateTime(2019, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            EmployeeId = new Guid("a58e04bc-6126-4eec-a014-42a73c076322"),
-                            EmployeeFirstName = "Anke",
-                            EmployeeLastName = "Müller",
-                            Entry = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            EmployeeId = new Guid("a008b4c0-88ca-47c1-8630-291d9ee15853"),
-                            EmployeeFirstName = "Peter",
-                            EmployeeLastName = "Meier",
-                            Entry = new DateTime(2015, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = false
+                            Exit = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999)
                         });
                 });
 
@@ -379,28 +301,6 @@ namespace TimeBooking.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Expenses");
-
-                    b.HasData(
-                        new
-                        {
-                            ExpenseId = new Guid("629bfa9d-7b6b-42e3-823f-a92d98fead7d"),
-                            Amount = 10.10m,
-                            CreditCard = false,
-                            Date = new DateTime(2023, 3, 15, 23, 8, 54, 687, DateTimeKind.Local).AddTicks(143),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
-                            ExpenseType = "Parkgebühr",
-                            OccasionLocation = "Sitzung Bern"
-                        },
-                        new
-                        {
-                            ExpenseId = new Guid("661814e4-e401-4b62-8e71-1ab9f798dc51"),
-                            Amount = 10.10m,
-                            CreditCard = false,
-                            Date = new DateTime(2023, 3, 18, 23, 8, 54, 687, DateTimeKind.Local).AddTicks(147),
-                            EmployeeId = new Guid("a58e04bc-6126-4eec-a014-42a73c076322"),
-                            ExpenseType = "Rückerstattung",
-                            OccasionLocation = "Wasser"
-                        });
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.InactiveClient", b =>
@@ -534,58 +434,6 @@ namespace TimeBooking.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Processes");
-
-                    b.HasData(
-                        new
-                        {
-                            ProcessId = new Guid("174793b3-cd31-412f-ab1c-97edfa65aa90"),
-                            Active = true,
-                            AmountHours = 100.00m,
-                            HourlyRate = 150.00m,
-                            ProcessName = "TestProcess 1",
-                            ProjectId = new Guid("2dae18c8-e528-4870-b691-f1df3e7e5319"),
-                            Vacation = false
-                        },
-                        new
-                        {
-                            ProcessId = new Guid("a944d35d-67ba-4475-b8ef-c262113c8905"),
-                            Active = true,
-                            AmountHours = 20.00m,
-                            HourlyRate = 150.00m,
-                            ProcessName = "TestProcess 2",
-                            ProjectId = new Guid("2dae18c8-e528-4870-b691-f1df3e7e5319"),
-                            Vacation = false
-                        },
-                        new
-                        {
-                            ProcessId = new Guid("8cebca44-c691-4be2-b6d3-ab9d742f8cf2"),
-                            Active = true,
-                            AmountHours = 20.00m,
-                            HourlyRate = 50.00m,
-                            ProcessName = "TestProcess 3",
-                            ProjectId = new Guid("2dae18c8-e528-4870-b691-f1df3e7e5319"),
-                            Vacation = false
-                        },
-                        new
-                        {
-                            ProcessId = new Guid("81a7e9bd-d189-44ac-9721-01f5e0d77712"),
-                            Active = true,
-                            AmountHours = 100.00m,
-                            HourlyRate = 160.00m,
-                            ProcessName = "TestProcess 1a",
-                            ProjectId = new Guid("44c56bd8-c2cb-4bfa-b7fa-800188d59fa6"),
-                            Vacation = false
-                        },
-                        new
-                        {
-                            ProcessId = new Guid("be1e8984-5cd3-43b1-b5a7-53a7010d52a5"),
-                            Active = true,
-                            AmountHours = 150.00m,
-                            HourlyRate = 200.00m,
-                            ProcessName = "TestProcess 2a",
-                            ProjectId = new Guid("44c56bd8-c2cb-4bfa-b7fa-800188d59fa6"),
-                            Vacation = false
-                        });
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.Project", b =>
@@ -633,32 +481,6 @@ namespace TimeBooking.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("Projects");
-
-                    b.HasData(
-                        new
-                        {
-                            ProjectId = new Guid("2dae18c8-e528-4870-b691-f1df3e7e5319"),
-                            ClientId = new Guid("fdbae1d7-75ef-4fea-9bf2-23a289ad8c9d"),
-                            ContractDuration = "2023",
-                            IsActive = true,
-                            IsFlatRate = true,
-                            ProjectName = "TestProject 1",
-                            ProjectNumber = "12345",
-                            TotalCosts = 50000.00m,
-                            VAT = true
-                        },
-                        new
-                        {
-                            ProjectId = new Guid("44c56bd8-c2cb-4bfa-b7fa-800188d59fa6"),
-                            ClientId = new Guid("8d80e514-e7b1-4b1c-b2f8-c68ecfddf321"),
-                            ContractDuration = "2025",
-                            IsActive = true,
-                            IsFlatRate = true,
-                            ProjectName = "TestProject 2",
-                            ProjectNumber = "16987",
-                            TotalCosts = 100000.00m,
-                            VAT = true
-                        });
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.T_Log", b =>
@@ -754,47 +576,6 @@ namespace TimeBooking.Migrations
                         .IsUnique();
 
                     b.ToTable("VacationWorkload");
-
-                    b.HasData(
-                        new
-                        {
-                            VacationWorkloadId = new Guid("0ac23686-0de0-4a02-ae9b-913a030e2ed0"),
-                            EmployeeId = new Guid("757f0271-5819-44f3-a4f4-2a4a97149c71"),
-                            Friday = true,
-                            Monday = true,
-                            Thursday = true,
-                            Tuesday = true,
-                            VacationPerYear = 25.00m,
-                            ValidFrom = new DateTime(2019, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Wednesday = true,
-                            Workload = 100.00m
-                        },
-                        new
-                        {
-                            VacationWorkloadId = new Guid("288a7251-6b98-4bd9-84ce-7a0d4b89b5f9"),
-                            EmployeeId = new Guid("a58e04bc-6126-4eec-a014-42a73c076322"),
-                            Friday = true,
-                            Monday = true,
-                            Thursday = true,
-                            Tuesday = true,
-                            VacationPerYear = 30.00m,
-                            ValidFrom = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Wednesday = true,
-                            Workload = 80.00m
-                        },
-                        new
-                        {
-                            VacationWorkloadId = new Guid("66c0f1df-bdb2-4f9e-9258-cd4f1c0935ff"),
-                            EmployeeId = new Guid("a008b4c0-88ca-47c1-8630-291d9ee15853"),
-                            Friday = true,
-                            Monday = true,
-                            Thursday = true,
-                            Tuesday = true,
-                            VacationPerYear = 25.00m,
-                            ValidFrom = new DateTime(2015, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Wednesday = true,
-                            Workload = 100.00m
-                        });
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.WorkingTime", b =>
@@ -825,16 +606,6 @@ namespace TimeBooking.Migrations
                         .IsUnique();
 
                     b.ToTable("WorkingTime");
-
-                    b.HasData(
-                        new
-                        {
-                            WorkingTimeId = new Guid("2694dd4d-08bc-4225-9a68-800ff82fab09"),
-                            DailyWorkingTime = 8.00m,
-                            Month = 3,
-                            WorkingTime1 = 64.00m,
-                            Year = 2023
-                        });
                 });
 
             modelBuilder.Entity("TimeBooking.Data.Models.WorkloadReduction", b =>

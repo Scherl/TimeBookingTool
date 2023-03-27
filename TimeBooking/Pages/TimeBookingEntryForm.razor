@@ -1,6 +1,6 @@
 ﻿@using TimeBooking.Data.Models
 @using TimeBooking.Data.Interfaces
-
+@using TimeBooking.Data.Services.BusinessComponents
 @inject ICustomerService CustomerService
 @inject IProjectService ProjectService
 @inject IProcessService ProcessService
@@ -72,25 +72,31 @@
 }
 
 @code {
-
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
     public DailyBookingEntry? BookingEntry { get; set; }
     public TimeBookingEntryForm()
     {
+
         BookingEntry = new DailyBookingEntry();
     }
+
     private List<Client>? _customers;
     private List<Project>? _projects;
     private List<Process>? _processes;
-    [Parameter]
-    public EventCallback OnValidSubmit { get; set; }
+    private BookingBusinessComponent _bookingBusinessComponent;
+    private CustomerBusinessComponent _customerBusinessComponent;
     private int _filterDebounceDelay  = 200;
     private bool _filterable  = true;
     private StringFilterOperator _filterOperator = StringFilterOperator.Contains;
+
 
     #region Init
 
     protected override async Task OnInitializedAsync()
     {
+        _bookingBusinessComponent = new BookingBusinessComponent(BookingService);
+        _customerBusinessComponent = new CustomerBusinessComponent(CustomerService);
         await GetCustomers();
         await SetDate();
     }
@@ -107,7 +113,7 @@
 
     private async Task GetCustomers()
     {
-        _customers = await CustomerService.GetAllActiveCustomers();
+        _customers = await _customerBusinessComponent.GetAllActiveCustomers();
     }
 
     private async Task GetProjectsByCustomerId(Guid? customerId)
@@ -134,21 +140,20 @@
             BookingEntry.ProjectId != Guid.Empty &&
             BookingEntry.CustomerId != Guid.Empty &&
             BookingEntry.ProcessId != Guid.Empty &&
-            string.IsNullOrEmpty(BookingEntry.Comment))
+            !string.IsNullOrEmpty(BookingEntry.Comment))
         {
             BookingEntry.EmployeeId = GlobalVars.Id;
-            await BookingService.InsertBooking(BookingEntry);
+            await _bookingBusinessComponent.InsertBookingAsync(BookingEntry);
             GlobalVars.OpenTimeEditForm = false;
             await OnValidSubmit.InvokeAsync();
             StateHasChanged();
         }
-    }
+    }//TODO: implement validation / warning when not all fields filled 
 
     #endregion
 
     
 
-    
 
    
 }

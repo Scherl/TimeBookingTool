@@ -34,9 +34,9 @@ namespace TimeBooking.Data.Models
         [Column(TypeName = "datetime")]
         [Display(Name = "Eintrittsdatum")]
         public DateTime Entry { get; set; }
-        [Column(TypeName = "datetime")]
-        [Display(Name = "Austrittsdatum")]
-        public DateTime Exit { get; set; }
+        [Column(TypeName = "bit")]
+        [Display(Name = "Aktiver Mitarbeiter")]
+        public bool IsActive { get; set; }
 
         [InverseProperty("Employee")]
         public virtual ICollection<Booking> Bookings { get; set; }

@@ -1,25 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
 using TimeBooking.Data.Context;
 using TimeBooking.Data.Interfaces;
 using TimeBooking.Data.Models;
 
 namespace TimeBooking.Data.Services
 {
-    public class BookingService : IBookingService
+    public class BookingService : RepositoryBase, IBookingService
     {
-        public readonly zeiterfassungContext Context;
-
-        public BookingService(zeiterfassungContext context)
-        {
-            Context = context;
-        }
+        
+        public BookingService(IDbContextFactory<zeiterfassungContext> factory) : base(factory) { }
 
         public async Task<List<DailyBooking>> GetBookingsByEmployeeAsync(Guid id, DateTime date)
         {
             var startOfWeek = GetWeekToDisplay(date);
 
-            var bookings = await Context.Bookings.Include(x => x.Process).Include(x => x.Process.Project).Where(x => x.EmployeeId == id && startOfWeek.Date <= x.BookingDate.Date && x.BookingDate.Date <= startOfWeek.AddDays(7).Date).OrderBy(x => x.BookingDate.Date).ToListAsync();
+            var bookings = await Context.Bookings
+                .Include(x => x.Process)
+                .Include(x => x.Process.Project)
+                .Where(x => x.EmployeeId == id 
+                    && startOfWeek.Date <= x.BookingDate.Date 
+                    && x.BookingDate.Date <= startOfWeek.AddDays(7).Date)
+                .OrderBy(x => x.BookingDate.Date)
+                .ToListAsync();
 
             if (bookings == null)
             {
@@ -44,7 +48,8 @@ namespace TimeBooking.Data.Services
 
         }
 
-        public async Task InsertBooking(DailyBookingEntry booking)
+
+        public async Task<Guid> InsertBooking(DailyBookingEntry booking)
         {
             if (booking != null)
             {
@@ -62,12 +67,18 @@ namespace TimeBooking.Data.Services
                 };
                 await Context.AddAsync(newBooking);
                 await Context.SaveChangesAsync();
+                return newBooking.BookingId;
 
             }
-
+            return Guid.Empty;
            
         }
 
+        /// <summary>
+        /// calculates the first day of the week with any given date based on system culture
+        /// </summary>
+        /// <param name="date">date selected by user</param>
+        /// <returns></returns>
         private static DateTime GetWeekToDisplay(DateTime date)
         {
             var startOfWeek = date.AddDays(
